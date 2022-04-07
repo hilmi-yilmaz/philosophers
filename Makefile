@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/04/07 14:05:55 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/04/07 16:41:11 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,28 +15,56 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 
+# Header files
+HEADER_FILES = 	src/input_validation.h \
+				src/utils/utils.h
+
+# Source files
+SRC_FILES = src/main.c \
+			src/input_validation.c \
+			src/utils/ft_isdigit.c \
+			src/utils/ft_isspace.c \
+			src/utils/skip_chr_func_pointer.c \
+			src/utils/skip_chr.c \
+			src/utils/skip_plus_and_minus_signs.c \
+			src/utils/atoi_with_int_overflow_check.c
+
 
 # Unit test files
 TEST_FILES = 	test/test_utils.c \
-				philo/utils/ft_isdigit.c \
-				philo/utils/ft_isspace.c \
-				philo/utils/skip_chr_func_pointer.c \
-				philo/utils/skip_chr.c \
-				philo/utils/skip_plus_and_minus_signs.c \
-				philo/utils/atoi_with_int_overflow_check.c \
+				src/utils/ft_isdigit.c \
+				src/utils/ft_isspace.c \
+				src/utils/skip_chr_func_pointer.c \
+				src/utils/skip_chr.c \
+				src/utils/skip_plus_and_minus_signs.c \
+				src/utils/atoi_with_int_overflow_check.c \
 				test/test_input_validation.c \
-				philo/input_validation.c
+				src/input_validation.c
+
+# Release object files
+RELEASE_OBJ_DIR = release_obj
+RELEASE_OBJ_FILES = $(SRC_FILES:%.c=$(RELEASE_OBJ_DIR)/%.o)
 
 # Test object files
 TEST_OBJ_DIR = test_obj
 TEST_OBJ_FILES = $(TEST_FILES:%.c=$(TEST_OBJ_DIR)/%.o)
 
 # Program names
+NAME = philo
 TEST_NAME = test_philo
 
-# SRC_DIR = philo
-# SRC = input_validation.c
-# OBJ = $(SRC:%.c=$(SRC_DIR)/%.o)
+# Default (release) build
+all: $(RELEASE_OBJ_DIR) $(NAME)
+
+$(RELEASE_OBJ_DIR):
+	mkdir -p $@
+
+$(NAME): $(RELEASE_OBJ_FILES)
+	$(CC) $(CFLAGS) $^ -o $@
+
+$(RELEASE_OBJ_FILES): $(RELEASE_OBJ_DIR)/%.o : %.c $(HEADER_FILES)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Test build
 test: $(TEST_OBJ_DIR) $(TEST_NAME)
@@ -50,15 +78,15 @@ $(TEST_OBJ_DIR):
 $(TEST_NAME): $(TEST_OBJ_FILES)
 	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
 
-$(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c
+$(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(TEST_OBJ_DIR)
+	rm -rf $(TEST_OBJ_DIR) $(RELEASE_OBJ_DIR)
 
 fclean: clean
-	rm -rf $(TEST_NAME)
+	rm -rf $(NAME) $(TEST_NAME)
 
 .PHONY: test test_run clean fclean
 	
