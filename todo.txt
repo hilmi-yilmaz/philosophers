@@ -1,3 +1,2 @@
-1. Add normal build to Makefile
-2. Finish input validation
-3.
+1. Test set data
+2. Start project algorithm

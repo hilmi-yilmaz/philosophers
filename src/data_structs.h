@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   data_structs.h                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 17:14:28 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/07 17:00:42 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/07 17:09:49 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef DATA_STRUCTS_H
+# define DATA_STRUCTS_H
+
 /* System headers */
-#include <stdio.h>
-#include <string.h>
+# include <stddef.h>
 
-/* User defined headers */
-#include "input_validation.h"
-#include "set_data.h"
-#include "data_structs.h"
-
-int	main(int argc, char *argv[])
+/* Holds all data relevant for this project */
+typedef struct s_data
 {
-	t_data	data;
-	
-	if (!validate_input(argc, argv + 1))
-		return (1);
-	memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-	return (0);
-}
+	size_t	number_of_philo;
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
+	int		number_of_times_to_eat;
+}		t_data;
+
+#endif

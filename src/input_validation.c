@@ -6,11 +6,25 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:42:49 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 14:04:08 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/04/07 16:54:29 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input_validation.h"
+
+bool	only_numeric_characters(char *str_number)
+{
+	size_t	i;
+
+	i = 0;
+	while (str_number[i])
+	{
+		if (!ft_isdigit(str_number[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 bool	validate_input(int argc, char *argv[])
 {
@@ -24,6 +38,16 @@ bool	validate_input(int argc, char *argv[])
 	err = 0;
 	while (argv[i] != NULL)
 	{
+		if (argv[i][0] == '\0')
+		{
+			printf("No empty strings allowed\n");
+			return (false);
+		}
+		if (!only_numeric_characters(argv[i]))
+		{
+			printf("Only numeric characters are accepted\n");
+			return (false);
+		}
 		converted_input = atoi_with_int_overflow_check(argv[i], &err);
 		if (err == 1)
 		{

@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   set_data.h                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 17:14:28 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/07 17:05:19 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/07 17:06:22 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SET_DATA_H
+# define SET_DATA_H
+
 /* System headers */
-#include <stdio.h>
-#include <string.h>
 
 /* User defined headers */
-#include "input_validation.h"
-#include "set_data.h"
-#include "data_structs.h"
+# include "data_structs.h"
+# include "utils/utils.h"
 
-int	main(int argc, char *argv[])
-{
-	t_data	data;
-	
-	if (!validate_input(argc, argv + 1))
-		return (1);
-	memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-	return (0);
-}
+/* Function prototypes */
+void	set_data(char *argv[], t_data *data);
+
+#endif
+
