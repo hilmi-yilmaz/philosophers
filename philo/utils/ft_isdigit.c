@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   input_validation.h                                 :+:    :+:            */
+/*   ft_isdigit.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:45:55 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 13:57:36 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/07 13:38:02 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/07 13:39:40 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALIDATION_H
-# define INPUT_VALIDATION_H
+#include "utils.h"
 
-/* System headers */
-# include <stdbool.h>
-# include <stdlib.h>
-# include <stdio.h>
-
-/* User defined headers */
-# include "utils/utils.h"
-
-/* Function prototypes */
-bool	validate_input(int argc, char *argv[]);
-
-#endif
+bool	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}

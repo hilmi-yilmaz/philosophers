@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   input_validation.h                                 :+:    :+:            */
+/*   skip_chr_func_pointer.c                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:45:55 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 13:57:36 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/07 13:41:48 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/07 13:43:28 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALIDATION_H
-# define INPUT_VALIDATION_H
+#include "utils.h"
 
-/* System headers */
-# include <stdbool.h>
-# include <stdlib.h>
-# include <stdio.h>
+int	skip_chr_func_pointer(char *str, int (func)(int))
+{
+	int	i;
 
-/* User defined headers */
-# include "utils/utils.h"
-
-/* Function prototypes */
-bool	validate_input(int argc, char *argv[]);
-
-#endif
+	i = 0;
+	while (func(str[i]) != 0)
+		i++;
+	return (i);
+}
