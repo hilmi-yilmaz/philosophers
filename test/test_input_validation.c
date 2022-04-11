@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 12:51:35 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 16:58:23 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/04/11 12:07:11 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@
 /* Variables used in every test */
 static char	**argv = NULL;
 
-void	setup_suite(void)
+void	setup_suite_input_validation(void)
 {
 	argv = NULL;
 }
 
-void	teardown_suite(void)
+void	teardown_suite_input_validation(void)
 {
 	free_argv(argv);
 }
 
-TestSuite(InputValidation, .init = setup_suite, .fini = teardown_suite);
+TestSuite(InputValidation, .init = setup_suite_input_validation, .fini = teardown_suite_input_validation);
 
 Test(InputValidation, CorrectInput0)
 {	

@@ -1,2 +1,1 @@
-1. Test set data
-2. Start project algorithm
+1. Create doubly circular linked list
