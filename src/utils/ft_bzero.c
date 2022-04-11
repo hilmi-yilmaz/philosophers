@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_bzero.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/11 12:18:16 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/11 12:19:15 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/11 12:19:22 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* System headers */
-#include <stdio.h>
-#include <string.h>
+#include "utils.h"
 
-/* User defined headers */
-#include "input_validation.h"
-#include "set_data.h"
-#include "data_structs.h"
-#include "utils/utils.h"
-
-int	main(int argc, char *argv[])
+void	ft_bzero(void *s, size_t n)
 {
-	t_data	data;
-	
-	if (!validate_input(argc, argv + 1))
-		return (1);
-	ft_memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-	return (0);
+	size_t			i;
+	unsigned char	*ptr_s;
+
+	i = 0;
+	ptr_s = s;
+	while (i < n)
+	{
+		*(ptr_s + i) = '\0';
+		i++;
+	}
 }

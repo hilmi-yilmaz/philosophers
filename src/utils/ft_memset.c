@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/11 12:18:16 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/04/11 12:17:29 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/04/11 12:17:39 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* System headers */
-#include <stdio.h>
-#include <string.h>
+#include "utils.h"
 
-/* User defined headers */
-#include "input_validation.h"
-#include "set_data.h"
-#include "data_structs.h"
-#include "utils/utils.h"
-
-int	main(int argc, char *argv[])
+void	*ft_memset(void *s, int c, size_t n)
 {
-	t_data	data;
-	
-	if (!validate_input(argc, argv + 1))
-		return (1);
-	ft_memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-	return (0);
+	size_t			i;
+	unsigned char	*p;
+
+	i = 0;
+	p = s;
+	while (i < n)
+	{
+		*(p + i) = c;
+		i++;
+	}
+	return (s);
 }
