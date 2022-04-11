@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:00:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 17:09:49 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/04/11 16:18:48 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 # include <stddef.h>
 
 /* Holds all data relevant for this project */
+typedef enum e_state
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	DIED,
+}	t_state;
+
 typedef struct s_data
 {
 	size_t	number_of_philo;

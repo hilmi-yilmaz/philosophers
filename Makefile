@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/04/11 12:03:05 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/04/11 16:46:57 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,10 @@ SRC_FILES = src/main.c \
 			src/utils/skip_chr_func_pointer.c \
 			src/utils/skip_chr.c \
 			src/utils/skip_plus_and_minus_signs.c \
-			src/utils/atoi_with_int_overflow_check.c
+			src/utils/atoi_with_int_overflow_check.c \
+			src/utils/ft_bzero.c \
+			src/utils/ft_memset.c \
+			src/utils/ft_calloc.c
 
 
 # Unit test files
@@ -40,6 +43,9 @@ TEST_FILES = 	test/test_utils.c \
 				src/utils/skip_chr.c \
 				src/utils/skip_plus_and_minus_signs.c \
 				src/utils/atoi_with_int_overflow_check.c \
+				src/utils/ft_bzero.c \
+				src/utils/ft_memset.c \
+				src/utils/ft_calloc.c \
 				test/test_input_validation.c \
 				src/input_validation.c \
 				test/test_set_data.c \
@@ -61,7 +67,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 2 10 10 10
+	@./$(NAME) 2 40 10 10
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
