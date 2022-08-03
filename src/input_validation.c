@@ -6,13 +6,13 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:42:49 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/07 16:54:29 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/03 16:23:27 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input_validation.h"
 
-bool	only_numeric_characters(char *str_number)
+static bool	only_numeric_characters(char *str_number)
 {
 	size_t	i;
 

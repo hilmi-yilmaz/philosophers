@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/11 17:10:24 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/03 17:59:50 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,73 +20,119 @@
 /* User defined headers */
 #include "input_validation.h"
 #include "set_data.h"
+#include "mutexes.h"
 #include "data_structs.h"
 #include "utils/utils.h"
 
-pthread_mutex_t	*create_mutexes(size_t number_of_forks)
-{
-	size_t	i;
-	pthread_mutex_t	*forks;
-	
-	i = 0;
-	forks = ft_calloc(number_of_forks, sizeof(pthread_mutex_t));
-	while (i < number_of_forks)
-	{
-		if (pthread_mutex_init(&forks[i], NULL))
-		{
-			perror("Error with pthread_mutex_init");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (forks);
-}
 
-void	destroy_mutexes(pthread_mutex_t *forks, size_t number_of_forks)
-{
-	size_t	i;
 
-	i = 0;
-	while (i < number_of_forks)
-	{
-		if (pthread_mutex_destroy(&forks[i]))
-		{
-			perror("Error with pthread_mutex_init");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-}
+// void	*thread_func(void *arg)
+// {
+// 	pthread_mutex_t *forks = arg;
+
+// 	// (void)forks;
+// 	pthread_mutex_lock(&forks[0]);
+// 	write(1, "h", 1);
+// 	write(1, "y", 1);
+// 	write(1, "\n", 1);
+// 	pthread_mutex_unlock(&forks[0]);
+// 	return (0);
+// }
 
 void	*thread_func(void *arg)
 {
-	pthread_mutex_t *forks = arg;
 
-	pthread_mutex_lock(&forks[0]);
-	write(1, "h", 1);
-	write(1, "y", 1);
-	write(1, "\n", 1);
-	pthread_mutex_unlock(&forks[0]);
+	t_philo	philo = *(t_philo *)arg;
+	const int left_fork_idx = philo.idx;
+	const int right_fork_idx = (philo.idx + 1) % 3;	// 3 is number of philo
+
+
+	while (1)
+	{
+
+		if (philo.idx == 2)
+		{
+			// Pick up the right fork
+			pthread_mutex_lock(&philo.forks[right_fork_idx]);
+			printf("philo %lu picked up right fork\n", philo.idx);
+			
+			// Pick up the left fork
+			pthread_mutex_lock(&philo.forks[left_fork_idx]);
+			printf("philo %lu picked up left fork\n", philo.idx);
+		}
+		else
+		{
+			// Pick up the left fork
+			pthread_mutex_lock(&philo.forks[left_fork_idx]);
+			printf("philo %lu picked up left fork\n", philo.idx);
+
+			// Pick up the right fork
+			pthread_mutex_lock(&philo.forks[right_fork_idx]);
+			printf("philo %lu picked up right fork\n", philo.idx);
+		}
+
+		// Now we can eat
+		sleep(5);
+		printf("philo %lu finished eating \n", philo.idx);
+
+
+		// Release the left fork
+		pthread_mutex_unlock(&philo.forks[left_fork_idx]);
+		printf("philo %lu released up left fork\n", philo.idx);
+
+		
+		// Release the right fork
+		pthread_mutex_unlock(&philo.forks[right_fork_idx]);
+		printf("philo %lu released up right fork\n", philo.idx);
+
+
+		// Now we can sleep
+		sleep(5);
+		printf("philo %lu finished sleeping \n", philo.idx);
+
+
+		// // Now we can think
+		// sleep(10);
+
+
+	}
+
+	// while (1)
+	// {
+	// 	// pick up left fork
+	// 	pthread_mutex_lock(philo->forks[philo->idx]);
+
+	// 	// pick up right fork
+	// 	// eat
+	// 	// sleep
+	// 	// thick
+	// }
 	return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_data	data;
-	
-	if (!validate_input(argc, argv + 1))
-		return (1);
-	ft_memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-
 	// Make run gives:
 	// number of philosophers 	= 2
 	// time to die 				= 40
 	// time to eat 				= 10
 	// time to sleep 			= 10
 	
+	t_data	data;
+	t_philo	*philos;
+	
+	// Validate input and save the data
+	if (!validate_input(argc, argv + 1))
+		return (1);
+	ft_memset(&data, 0, sizeof(t_data));
+	set_data(argv + 1, &data);
+
+	
 	// Create the forks and threads array
 	pthread_mutex_t	*forks = create_mutexes(data.number_of_philo);
+
+	// Create the philo's: this is the argument passed to each thread.
+	philos = ft_calloc(data.number_of_philo, sizeof(*philos));
 
 	// Create the threads
 	size_t	i = 0;
@@ -94,7 +140,11 @@ int	main(int argc, char *argv[])
 	threads = ft_calloc(data.number_of_philo, sizeof(*threads));
 	while (i < data.number_of_philo)
 	{
-		pthread_create(&threads[i], NULL, thread_func, forks);
+		philos[i].idx = i;
+		philos[i].forks = forks;
+		// pthread_create(&threads[i], NULL, thread_func, forks);
+		pthread_create(&threads[i], NULL, thread_func, &philos[i]);
+
 		i++;
 	}
 
