@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/03 17:43:19 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/04 17:19:24 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 HEADER_FILES = 	src/input_validation.h \
 				src/set_data.h \
 				src/mutexes.h \
+				src/timing.h \
 				src/utils/utils.h
 
 # Source files
@@ -26,6 +27,7 @@ SRC_FILES = src/main.c \
 			src/input_validation.c \
 			src/set_data.c \
 			src/mutexes.c \
+			src/timing.c \
 			src/utils/ft_isdigit.c \
 			src/utils/ft_isspace.c \
 			src/utils/skip_chr_func_pointer.c \
@@ -51,7 +53,9 @@ TEST_FILES = 	test/test_utils.c \
 				test/test_input_validation.c \
 				src/input_validation.c \
 				test/test_set_data.c \
-				src/set_data.c
+				src/set_data.c \
+				test/test_timing.c \
+				src/timing.c
 
 # Release object files
 RELEASE_OBJ_DIR = release_obj

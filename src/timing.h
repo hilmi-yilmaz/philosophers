@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_data.h                                         :+:    :+:            */
+/*   timing.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/07 17:05:19 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/04 12:49:35 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/08/04 15:50:22 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/08/04 16:03:39 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_DATA_H
-# define SET_DATA_H
+#ifndef TIMING_H
+# define TIMING_H
 
 /* System headers */
+#include <sys/time.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 /* User defined headers */
-# include "data_structs.h"
-# include "utils/utils.h"
-# include "mutexes.h"
+
+/* Macros */
+#define INTERVAL_IN_MICROSECONDS 10
 
 /* Function prototypes */
-void	set_input_data(char *argv[], t_input_data *input_data);
+int sleep_milliseconds(useconds_t microseconds);
 
 #endif
 

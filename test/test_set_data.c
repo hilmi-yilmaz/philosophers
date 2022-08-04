@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   test_set_data.c                                    :+:    :+:            */
+/*   test_set_input_data.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/11 11:54:00 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/04/11 12:08:10 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/04 12:54:52 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,23 @@
 
 /* Variables used in every test */
 static char		**argv = NULL;
-static t_data	data;
+static t_input_data	data;
 
 /* Helper functions */
 
 
-void	setup_suite_set_data(void)
+void	setup_suite_set_input_data(void)
 {
 	argv = NULL;
-	memset(&data, 0, sizeof(t_data));
+	memset(&data, 0, sizeof(t_input_data));
 }
 
-void	teardown_suite_set_data(void)
+void	teardown_suite_set_input_data(void)
 {
 	free_argv(argv);
 }
 
-TestSuite(SetData, .init = setup_suite_set_data, .fini = teardown_suite_set_data);
+TestSuite(SetData, .init = setup_suite_set_input_data, .fini = teardown_suite_set_input_data);
 
 Test(SetData, FourArguments)
 {
@@ -49,7 +49,7 @@ Test(SetData, FourArguments)
 
 	argv = create_argv(argc - 1, "10", "20", "30", "40");
 
-	set_data(argv, &data);
+	set_input_data(argv, &data);
 
 	cr_assert(eq(int, data.number_of_philo, 10));
 	cr_assert(eq(int, data.time_to_die, 20));
@@ -64,7 +64,7 @@ Test(SetData, FiveArguments)
 
 	argv = create_argv(argc - 1, "10", "20", "30", "40", "50");
 
-	set_data(argv, &data);
+	set_input_data(argv, &data);
 
 	cr_assert(eq(int, data.number_of_philo, 10));
 	cr_assert(eq(int, data.time_to_die, 20));

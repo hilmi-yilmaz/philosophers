@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/03 17:59:50 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/04 17:10:25 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "mutexes.h"
 #include "data_structs.h"
 #include "utils/utils.h"
+#include "timing.h"
 
 
 
@@ -42,71 +43,56 @@
 void	*thread_func(void *arg)
 {
 
-	t_philo	philo = *(t_philo *)arg;
-	const int left_fork_idx = philo.idx;
-	const int right_fork_idx = (philo.idx + 1) % 3;	// 3 is number of philo
+	t_philo_data	philo = *(t_philo_data *)arg;
+
 
 
 	while (1)
 	{
-
-		if (philo.idx == 2)
+		if (philo.philo_id == 0)
 		{
 			// Pick up the right fork
-			pthread_mutex_lock(&philo.forks[right_fork_idx]);
-			printf("philo %lu picked up right fork\n", philo.idx);
+			pthread_mutex_lock(philo.right_fork);
+			printf("%lu picked up right fork\n", philo.philo_id);
 			
 			// Pick up the left fork
-			pthread_mutex_lock(&philo.forks[left_fork_idx]);
-			printf("philo %lu picked up left fork\n", philo.idx);
+			pthread_mutex_lock(philo.left_fork);
+			printf("%lu picked up left fork\n", philo.philo_id);
 		}
 		else
 		{
 			// Pick up the left fork
-			pthread_mutex_lock(&philo.forks[left_fork_idx]);
-			printf("philo %lu picked up left fork\n", philo.idx);
+			pthread_mutex_lock(philo.left_fork);
+			printf("%lu picked up left fork\n", philo.philo_id);
 
 			// Pick up the right fork
-			pthread_mutex_lock(&philo.forks[right_fork_idx]);
-			printf("philo %lu picked up right fork\n", philo.idx);
+			pthread_mutex_lock(philo.right_fork);
+			printf("%lu picked up right fork\n", philo.philo_id);
 		}
 
 		// Now we can eat
-		sleep(5);
-		printf("philo %lu finished eating \n", philo.idx);
+		printf("%lu is eating\n", philo.philo_id);
+		usleep(philo.input_data->time_to_eat * 1000);
 
 
 		// Release the left fork
-		pthread_mutex_unlock(&philo.forks[left_fork_idx]);
-		printf("philo %lu released up left fork\n", philo.idx);
+		pthread_mutex_unlock(philo.left_fork);
+		printf("%lu released left fork\n", philo.philo_id);
 
 		
 		// Release the right fork
-		pthread_mutex_unlock(&philo.forks[right_fork_idx]);
-		printf("philo %lu released up right fork\n", philo.idx);
+		pthread_mutex_unlock(philo.right_fork);
+		printf("%lu released right fork\n",philo.philo_id);
 
 
 		// Now we can sleep
-		sleep(5);
-		printf("philo %lu finished sleeping \n", philo.idx);
+		printf("%lu is sleeping\n", philo.philo_id);
+		usleep(philo.input_data->time_to_sleep * 1000);
 
 
-		// // Now we can think
-		// sleep(10);
-
-
+		// Now we can think
+		printf("%lu is thinking\n", philo.philo_id);
 	}
-
-	// while (1)
-	// {
-	// 	// pick up left fork
-	// 	pthread_mutex_lock(philo->forks[philo->idx]);
-
-	// 	// pick up right fork
-	// 	// eat
-	// 	// sleep
-	// 	// thick
-	// }
 	return (0);
 }
 
@@ -118,46 +104,52 @@ int	main(int argc, char *argv[])
 	// time to eat 				= 10
 	// time to sleep 			= 10
 	
-	t_data	data;
-	t_philo	*philos;
+	t_input_data	input_data;
 	
 	// Validate input and save the data
 	if (!validate_input(argc, argv + 1))
 		return (1);
-	ft_memset(&data, 0, sizeof(t_data));
-	set_data(argv + 1, &data);
-
+	ft_memset(&input_data, 0, sizeof(t_input_data));
+	set_input_data(argv + 1, &input_data);
 	
 	// Create the forks and threads array
-	pthread_mutex_t	*forks = create_mutexes(data.number_of_philo);
+	pthread_mutex_t	*forks = create_mutexes(input_data.number_of_philo);
 
-	// Create the philo's: this is the argument passed to each thread.
-	philos = ft_calloc(data.number_of_philo, sizeof(*philos));
+	// Data struct for each philo
+	t_philo_data	*philos;
+	philos = ft_calloc(input_data.number_of_philo, sizeof(*philos));
+
+	size_t i = 0;
+	while (i < input_data.number_of_philo)
+	{
+		philos[i].philo_id = i;
+		philos[i].input_data = &input_data;
+		philos[i].left_fork = &forks[i];
+		philos[i].right_fork = &forks[(i + 1) % input_data.number_of_philo];
+		printf("philo_id = %lu\n", philos[i].philo_id);
+		i++;
+	}
 
 	// Create the threads
-	size_t	i = 0;
+	i = 0;
 	pthread_t	*threads;
-	threads = ft_calloc(data.number_of_philo, sizeof(*threads));
-	while (i < data.number_of_philo)
+	threads = ft_calloc(input_data.number_of_philo, sizeof(*threads));
+	while (i < input_data.number_of_philo)
 	{
-		philos[i].idx = i;
-		philos[i].forks = forks;
-		// pthread_create(&threads[i], NULL, thread_func, forks);
 		pthread_create(&threads[i], NULL, thread_func, &philos[i]);
-
 		i++;
 	}
 
 	// Join the threads
 	i = 0;
-	while (i < data.number_of_philo)
+	while (i < input_data.number_of_philo)
 	{
 		pthread_join(threads[i], NULL);
 		i++;
 	}
 
 	// Destroy mutexes
-	destroy_mutexes(forks, data.number_of_philo);
+	destroy_mutexes(forks, input_data.number_of_philo);
 
 	return (0);
 }
