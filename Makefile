@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/04 17:19:24 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/10 16:07:09 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,9 @@ TEST_FILES = 	test/test_utils.c \
 				test/test_set_data.c \
 				src/set_data.c \
 				test/test_timing.c \
+				test/test_add_timeval.c \
 				src/timing.c
+
 
 # Release object files
 RELEASE_OBJ_DIR = release_obj
@@ -73,7 +75,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 3 40 10 10
+	@./$(NAME) 4 60 10 20
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@

@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/04 17:10:25 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/10 16:11:20 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 /* User defined headers */
 #include "input_validation.h"
@@ -45,7 +46,14 @@ void	*thread_func(void *arg)
 
 	t_philo_data	philo = *(t_philo_data *)arg;
 
+	struct timeval 	start_time;
+	struct timeval 	current_time;
+	t_milliseconds	start_time_milliseconds;
+	t_milliseconds	current_time_milliseconds;
 
+
+	gettimeofday(&start_time, NULL);
+	start_time_milliseconds = timeval_to_milliseconds(start_time);
 
 	while (1)
 	{
@@ -53,45 +61,63 @@ void	*thread_func(void *arg)
 		{
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			printf("%lu picked up right fork\n", philo.philo_id);
+			gettimeofday(&current_time, NULL);
+			current_time_milliseconds = timeval_to_milliseconds(current_time);
+			printf("timestap: %-6lu ms --> %lu picked up right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
 			
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			printf("%lu picked up left fork\n", philo.philo_id);
+			gettimeofday(&current_time, NULL);
+			current_time_milliseconds = timeval_to_milliseconds(current_time);
+			printf("timestap: %-6lu ms --> %lu picked up left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
 		}
 		else
 		{
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			printf("%lu picked up left fork\n", philo.philo_id);
+			gettimeofday(&current_time, NULL);
+			current_time_milliseconds = timeval_to_milliseconds(current_time);
+			printf("timestap: %-6lu ms --> %lu picked up left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
 
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			printf("%lu picked up right fork\n", philo.philo_id);
+			gettimeofday(&current_time, NULL);
+			current_time_milliseconds = timeval_to_milliseconds(current_time);
+			printf("timestap: %-6lu ms --> %lu picked up right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
 		}
 
 		// Now we can eat
-		printf("%lu is eating\n", philo.philo_id);
-		usleep(philo.input_data->time_to_eat * 1000);
+		gettimeofday(&current_time, NULL);
+		current_time_milliseconds = timeval_to_milliseconds(current_time);
+		printf("timestap: %-6lu ms --> %lu is eating\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+		sleep_milliseconds(philo.input_data->time_to_eat);
 
 
 		// Release the left fork
+		gettimeofday(&current_time, NULL);
+		current_time_milliseconds = timeval_to_milliseconds(current_time);
 		pthread_mutex_unlock(philo.left_fork);
-		printf("%lu released left fork\n", philo.philo_id);
+		// printf("timestap: %-6lu ms --> %lu released left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+
 
 		
 		// Release the right fork
+		gettimeofday(&current_time, NULL);
+		current_time_milliseconds = timeval_to_milliseconds(current_time);
 		pthread_mutex_unlock(philo.right_fork);
-		printf("%lu released right fork\n",philo.philo_id);
-
+		// printf("timestap: %-6lu ms --> %lu released right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
 
 		// Now we can sleep
-		printf("%lu is sleeping\n", philo.philo_id);
-		usleep(philo.input_data->time_to_sleep * 1000);
-
+		gettimeofday(&current_time, NULL);
+		current_time_milliseconds = timeval_to_milliseconds(current_time);
+		printf("timestap: %-6lu ms --> %lu is sleeping\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+		sleep_milliseconds(philo.input_data->time_to_sleep);
 
 		// Now we can think
-		printf("%lu is thinking\n", philo.philo_id);
+		gettimeofday(&current_time, NULL);
+		current_time_milliseconds = timeval_to_milliseconds(current_time);
+		printf("timestap: %-6lu ms --> %lu is thinking\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+
 	}
 	return (0);
 }
