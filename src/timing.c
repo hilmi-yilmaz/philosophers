@@ -34,6 +34,19 @@ t_milliseconds timeval_to_milliseconds(struct timeval time)
 	return time.tv_sec * 1000 + time.tv_usec / 1000;
 }
 
+/*
+** Returns current timestamp beginning from start_time.
+** If start_time = 10 (timestamp in ms)
+** and 2 ms have passed, then the function returns 12 ms.
+*/
+t_milliseconds	get_current_timestamp_in_ms(t_milliseconds start_time)
+{
+	struct timeval current_time;
+
+	gettimeofday(&current_time, NULL);
+	return (timeval_to_milliseconds(current_time) - start_time);
+}
+
 int sleep_milliseconds(useconds_t milliseconds)
 {
 	struct timeval	current_time;

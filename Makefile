@@ -12,8 +12,11 @@
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread
-CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
+# CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
+CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
+CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
+
 
 # Header files
 HEADER_FILES = 	src/input_validation.h \
@@ -75,7 +78,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 4 60 10 20
+	@./$(NAME) 4 60 20 20 4
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
@@ -97,11 +100,11 @@ $(TEST_OBJ_DIR):
 	mkdir -p $@
 
 $(TEST_NAME): $(TEST_OBJ_FILES)
-	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
+	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 
 $(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -c $< -o $@
 
 clean:
 	rm -rf $(TEST_OBJ_DIR) $(RELEASE_OBJ_DIR)

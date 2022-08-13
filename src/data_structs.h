@@ -26,13 +26,6 @@ typedef enum e_state
 	DIED,
 }	t_state;
 
-// typedef struct s_philo
-// {
-// 	size_t			idx;
-// 	pthread_mutex_t	*forks;
-
-// }	t_philo;
-
 typedef struct s_input_data
 {
 	size_t			number_of_philo;

@@ -47,13 +47,15 @@ void	*thread_func(void *arg)
 	t_philo_data	philo = *(t_philo_data *)arg;
 
 	struct timeval 	start_time;
-	struct timeval 	current_time;
+	// struct timeval 	current_time;
 	t_milliseconds	start_time_milliseconds;
-	t_milliseconds	current_time_milliseconds;
+	// t_milliseconds	current_time_milliseconds;
 
 
 	gettimeofday(&start_time, NULL);
 	start_time_milliseconds = timeval_to_milliseconds(start_time);
+
+	size_t	times_ate = 0;
 
 	while (1)
 	{
@@ -61,62 +63,50 @@ void	*thread_func(void *arg)
 		{
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			gettimeofday(&current_time, NULL);
-			current_time_milliseconds = timeval_to_milliseconds(current_time);
-			printf("timestap: %-6lu ms --> %lu picked up right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.right_fork);
 			
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			gettimeofday(&current_time, NULL);
-			current_time_milliseconds = timeval_to_milliseconds(current_time);
-			printf("timestap: %-6lu ms --> %lu picked up left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.left_fork);
 		}
 		else
 		{
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			gettimeofday(&current_time, NULL);
-			current_time_milliseconds = timeval_to_milliseconds(current_time);
-			printf("timestap: %-6lu ms --> %lu picked up left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.left_fork);
 
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			gettimeofday(&current_time, NULL);
-			current_time_milliseconds = timeval_to_milliseconds(current_time);
-			printf("timestap: %-6lu ms --> %lu picked up right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.right_fork);
 		}
 
 		// Now we can eat
-		gettimeofday(&current_time, NULL);
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
-		printf("timestap: %-6lu ms --> %lu is eating\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+		printf("timestap: %-6lu ms --> %lu is eating\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
 		sleep_milliseconds(philo.input_data->time_to_eat);
 
 
-		// Release the left fork
-		gettimeofday(&current_time, NULL);
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
+		// // Release the left fork
+		// printf("timestap: %-6lu ms --> %lu released left fork  (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.left_fork);
 		pthread_mutex_unlock(philo.left_fork);
-		// printf("timestap: %-6lu ms --> %lu released left fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
-
 
 		
-		// Release the right fork
-		gettimeofday(&current_time, NULL);
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
+		// // Release the right fork
+		// printf("timestap: %-6lu ms --> %lu released right fork (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.right_fork);
 		pthread_mutex_unlock(philo.right_fork);
-		// printf("timestap: %-6lu ms --> %lu released right fork\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+
+		times_ate++;
+		printf("Ate %lu times\n", times_ate);
+		if (philo.input_data->number_of_times_to_eat > 0 && times_ate == philo.input_data->number_of_times_to_eat) 
+		{
+			return (void *)1;
+		}
 
 		// Now we can sleep
-		gettimeofday(&current_time, NULL);
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
-		printf("timestap: %-6lu ms --> %lu is sleeping\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+		printf("timestap: %-6lu ms --> %lu is sleeping\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
 		sleep_milliseconds(philo.input_data->time_to_sleep);
 
 		// Now we can think
-		gettimeofday(&current_time, NULL);
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
-		printf("timestap: %-6lu ms --> %lu is thinking\n", current_time_milliseconds - start_time_milliseconds, philo.philo_id);
+		printf("timestap: %-6lu ms --> %lu is thinking\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
 
 	}
 	return (0);
@@ -125,10 +115,10 @@ void	*thread_func(void *arg)
 int	main(int argc, char *argv[])
 {
 	// Make run gives:
-	// number of philosophers 	= 2
-	// time to die 				= 40
+	// number of philosophers 	= 4
+	// time to die 				= 60
 	// time to eat 				= 10
-	// time to sleep 			= 10
+	// time to sleep 			= 20
 	
 	t_input_data	input_data;
 	
@@ -152,7 +142,8 @@ int	main(int argc, char *argv[])
 		philos[i].input_data = &input_data;
 		philos[i].left_fork = &forks[i];
 		philos[i].right_fork = &forks[(i + 1) % input_data.number_of_philo];
-		printf("philo_id = %lu\n", philos[i].philo_id);
+		printf("%lu right_fork = %p -- left_fork = %p\n", i, philos[i].right_fork, philos[i].left_fork);
+		// printf("philo_id = %lu\n", philos[i].philo_id);
 		i++;
 	}
 
@@ -168,9 +159,11 @@ int	main(int argc, char *argv[])
 
 	// Join the threads
 	i = 0;
+	void *ret_val;
 	while (i < input_data.number_of_philo)
 	{
-		pthread_join(threads[i], NULL);
+		pthread_join(threads[i], &ret_val);
+		printf("thread %lu retval %lu\n", i, (size_t)ret_val);
 		i++;
 	}
 
