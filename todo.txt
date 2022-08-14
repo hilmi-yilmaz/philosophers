@@ -2,3 +2,4 @@
 - Refactor code
 - Add 5th argument to threads: number_of_times_to_eat
 - Fix print messages 
+- Add Dockerfile for Valgrind

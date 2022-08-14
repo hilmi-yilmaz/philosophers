@@ -17,6 +17,9 @@
 # include <stddef.h>
 # include <pthread.h>
 
+/* User defined headers */
+// # include "timing.h"
+
 /* Holds all data relevant for this project */
 typedef enum e_state
 {
@@ -41,6 +44,8 @@ typedef struct s_philo_data
 	t_input_data	*input_data;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
+	unsigned long	*timestamp_last_meal;
+	pthread_mutex_t	*mutex_last_meal;
 }		t_philo_data;
 
 #endif

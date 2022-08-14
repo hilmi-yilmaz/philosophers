@@ -12,7 +12,7 @@
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 # CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
 CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
@@ -78,7 +78,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 4 60 20 20 4
+	@./$(NAME) 3 30 20 20 4
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
@@ -111,6 +111,8 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME) $(TEST_NAME)
+
+re: fclean all
 
 .PHONY: test test_run clean fclean
 	
