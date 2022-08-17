@@ -6,17 +6,19 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/10 16:07:09 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/17 16:57:18 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
-# CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
-CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
-CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
+CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
+
+# OWN LAPTOP
+# CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
+# CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
 
 
 # Header files
@@ -79,7 +81,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 3 30 20 20 4
+	@./$(NAME) 4 310 200 100
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
@@ -100,8 +102,10 @@ test_run: test
 $(TEST_OBJ_DIR):
 	mkdir -p $@
 
+
+# OWN LAPTOP: $(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 $(TEST_NAME): $(TEST_OBJ_FILES)
-	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
+	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
 
 $(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)

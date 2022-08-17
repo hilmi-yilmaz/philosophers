@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/04 15:50:22 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/10 14:40:11 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/17 15:54:55 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h>
 
 /* User defined headers */
-typedef unsigned long t_milliseconds;
+#include "data_structs.h"
 
 /* Macros */
 #define INTERVAL_IN_MICROSECONDS 10
