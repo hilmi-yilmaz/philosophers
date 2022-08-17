@@ -62,7 +62,7 @@ int sleep_milliseconds(useconds_t milliseconds)
 	}
 	add_milliseconds_to_timeval(&current_time, &final_time, milliseconds);
 	final_time_milliseconds = timeval_to_milliseconds(final_time);
-	sleep_interval_microseconds = 10;
+	sleep_interval_microseconds = 100;
 
 	// sleep_interval_microseconds = milliseconds * 1000 / 4;
 	// if (sleep_interval_microseconds > 1000)
@@ -83,5 +83,38 @@ int sleep_milliseconds(useconds_t milliseconds)
 		if (current_time_milliseconds >= final_time_milliseconds)
 			return (true);
 	}
+	return (true);
+}
+
+
+
+t_milliseconds	get_current_timestamp_in_ms_new(void)
+{
+	struct timeval current_time;
+
+	if (gettimeofday(&current_time, NULL) != 0)
+	{
+		printf("Error with gettimeofday function");
+		return (0);
+	}
+	return (timeval_to_milliseconds(current_time));
+}
+
+bool sleep_milliseconds_new(useconds_t milliseconds)
+{
+	// Get current time
+	t_milliseconds current_time;
+
+	current_time = get_current_timestamp_in_ms_new();
+	if (current_time == 0)
+	{
+		// handle error
+		return (false);
+	}
+
+	// Sleep in steps in a loop
+	// If 'milliseconds' passed, break
+	while (get_current_timestamp_in_ms_new() - current_time < milliseconds)
+		usleep(100);
 	return (true);
 }

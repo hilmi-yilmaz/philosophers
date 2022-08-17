@@ -50,7 +50,7 @@ void	*thread_func(void *arg)
 	struct timeval 	start_time;
 	// struct timeval 	current_time;
 	t_milliseconds	start_time_milliseconds;
-	// t_milliseconds	current_time_milliseconds;
+	t_milliseconds	current_time_ms;
 
 
 	gettimeofday(&start_time, NULL);
@@ -64,21 +64,40 @@ void	*thread_func(void *arg)
 		{
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.right_fork);
+
+			pthread_mutex_lock(philo.mutex_print);
+			current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", current_time_ms, philo.philo_id, philo.right_fork);
+			pthread_mutex_unlock(philo.mutex_print);
 			
+
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.left_fork);
+
+			pthread_mutex_lock(philo.mutex_print);
+			current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", current_time_ms, philo.philo_id, philo.left_fork);
+			pthread_mutex_unlock(philo.mutex_print);
 		}
 		else
 		{
 			// Pick up the left fork
 			pthread_mutex_lock(philo.left_fork);
-			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.left_fork);
+
+			pthread_mutex_lock(philo.mutex_print);
+			current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+			printf("timestap: %-6lu ms --> %lu picked up left fork  (%p)\n", current_time_ms, philo.philo_id, philo.left_fork);
+			pthread_mutex_unlock(philo.mutex_print);
+
 
 			// Pick up the right fork
 			pthread_mutex_lock(philo.right_fork);
-			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id, philo.right_fork);
+
+			pthread_mutex_lock(philo.mutex_print);
+			current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+			printf("timestap: %-6lu ms --> %lu picked up right fork (%p)\n", current_time_ms, philo.philo_id, philo.right_fork);
+			pthread_mutex_unlock(philo.mutex_print);
+
 		}
 
 		// Set timestamp that philosopher has started eaten
@@ -87,7 +106,11 @@ void	*thread_func(void *arg)
 		pthread_mutex_unlock(philo.mutex_last_meal);
 
 		// Now we can eat
-		printf("timestap: %-6lu ms --> %lu is eating\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
+		pthread_mutex_lock(philo.mutex_print);
+		current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+		printf("timestap: %-6lu ms --> %lu is eating\n", current_time_ms, philo.philo_id);
+		pthread_mutex_unlock(philo.mutex_print);
+
 		sleep_milliseconds(philo.input_data->time_to_eat);
 
 
@@ -108,11 +131,18 @@ void	*thread_func(void *arg)
 		}
 
 		// Now we can sleep
-		printf("timestap: %-6lu ms --> %lu is sleeping\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
+		pthread_mutex_lock(philo.mutex_print);
+		current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+		printf("timestap: %-6lu ms --> %lu is sleeping\n", current_time_ms, philo.philo_id);
+		pthread_mutex_unlock(philo.mutex_print);
+
 		sleep_milliseconds(philo.input_data->time_to_sleep);
 
 		// Now we can think
-		printf("timestap: %-6lu ms --> %lu is thinking\n", get_current_timestamp_in_ms(start_time_milliseconds), philo.philo_id);
+		pthread_mutex_lock(philo.mutex_print);
+		current_time_ms = get_current_timestamp_in_ms(start_time_milliseconds);
+		printf("timestap: %-6lu ms --> %lu is thinking\n", current_time_ms, philo.philo_id);
+		pthread_mutex_unlock(philo.mutex_print);
 
 	}
 	return (0);
@@ -142,7 +172,10 @@ void	*monitor_philos(void *arg)
 			// printf("philo %lu timestamp_last_meal = %lu\n", i, *philos[i].timestamp_last_meal);
 			if (*philos[i].timestamp_last_meal + time_to_die < current_timestamp)
 			{
+				pthread_mutex_lock(philos[i].mutex_print);
 				printf("timestap: %-6lu ms --> %lu died\n", current_timestamp, i);
+				pthread_mutex_unlock(philos[i].mutex_print);
+
 				pthread_mutex_unlock(philos[i].mutex_last_meal);
 				return (void *)2;
 			}
@@ -185,7 +218,9 @@ int	main(int argc, char *argv[])
 		philos[i].timestamp_last_meal = ft_calloc(1, sizeof(unsigned long));
 		*philos[i].timestamp_last_meal = 0;
 		philos[i].mutex_last_meal = ft_calloc(1, sizeof(pthread_mutex_t));
+		philos[i].mutex_print = ft_calloc(1, sizeof(pthread_mutex_t));
 		pthread_mutex_init(philos[i].mutex_last_meal, NULL);
+		pthread_mutex_init(philos[i].mutex_print, NULL);
 		printf("%lu right_fork = %p -- left_fork = %p\n", i, philos[i].right_fork, philos[i].left_fork);
 		// printf("philo_id = %lu\n", philos[i].philo_id);
 		i++;

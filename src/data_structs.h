@@ -46,6 +46,7 @@ typedef struct s_philo_data
 	pthread_mutex_t	*left_fork;
 	unsigned long	*timestamp_last_meal;
 	pthread_mutex_t	*mutex_last_meal;
+	pthread_mutex_t	*mutex_print;
 }		t_philo_data;
 
 #endif

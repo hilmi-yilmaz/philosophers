@@ -13,6 +13,7 @@
 # Compilation configuration parameters
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 # CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
 CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
@@ -100,11 +101,11 @@ $(TEST_OBJ_DIR):
 	mkdir -p $@
 
 $(TEST_NAME): $(TEST_OBJ_FILES)
-	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
+	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 
 $(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(CRITERION_INCLUDE_PATH) -c $< -o $@
+	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -c $< -o $@
 
 clean:
 	rm -rf $(TEST_OBJ_DIR) $(RELEASE_OBJ_DIR)
