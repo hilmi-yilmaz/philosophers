@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_data.h                                         :+:    :+:            */
+/*   free_data.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/07 17:05:19 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 10:50:30 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/08/18 12:18:35 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/08/18 12:19:26 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_DATA_H
-# define SET_DATA_H
+#ifndef FREE_DATA_H
+# define FREE_DATA_H
 
 /* System headers */
+#include <pthread.h>
 
 /* User defined headers */
-# include "data_structs.h"
-# include "input_validation.h"
-# include "utils/utils.h"
-# include "mutexes.h"
+#include "data_structs.h"
+#include "mutexes.h"
+#include "utils/utils.h"
 
 /* Function prototypes */
-void	set_input_data(char *argv[], t_input_data *input_data);
-bool	validate_and_set_input_data(int argc, char *argv[], t_input_data *input_data);
+void	free_data(t_philo_data *philos, pthread_t *philo_threads, pthread_t *monitor_thread);
 
-#endif
-
+#endif /* FREE_DATA_H */

@@ -6,13 +6,13 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/17 16:57:18 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/18 15:56:52 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 
@@ -24,16 +24,22 @@ CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 # Header files
 HEADER_FILES = 	src/input_validation.h \
 				src/set_data.h \
+				src/init_philo_data.h \
 				src/mutexes.h \
 				src/timing.h \
+				src/start_threads.h \
+				src/free_data.h \
 				src/utils/utils.h
 
 # Source files
 SRC_FILES = src/main.c \
 			src/input_validation.c \
 			src/set_data.c \
+			src/init_philo_data.c \
 			src/mutexes.c \
 			src/timing.c \
+			src/start_threads.c \
+			src/free_data.c \
 			src/utils/ft_isdigit.c \
 			src/utils/ft_isspace.c \
 			src/utils/skip_chr_func_pointer.c \
@@ -81,7 +87,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 4 310 200 100
+	@./$(NAME) 4 400 200 100
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@

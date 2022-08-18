@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:04:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/04 12:49:25 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/18 10:50:18 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,14 @@ void	set_input_data(char *argv[], t_input_data *input_data)
 		input_data->number_of_times_to_eat = atoi_with_int_overflow_check(argv[4], &err);
 	else
 		input_data->number_of_times_to_eat = -1;
+}
+
+bool	validate_and_set_input_data(int argc, char *argv[], t_input_data *input_data)
+{	
+	// Validate input and save the data
+	if (!validate_input(argc, argv + 1))
+		return (false);
+	ft_memset(input_data, 0, sizeof(t_input_data));
+	set_input_data(argv + 1, input_data);
+	return (true);
 }

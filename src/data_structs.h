@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:00:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/17 15:58:57 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/18 15:12:11 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /* System headers */
 # include <stddef.h>
 # include <pthread.h>
+# include <stdbool.h>
 
 /* User defined headers */
 // # include "timing.h"
@@ -48,7 +49,12 @@ typedef struct s_philo_data
 	// Pointer to input data
 	t_input_data	*input_data;
 
+	// Is the philosopher dead?
+	bool			*is_dead;
+	pthread_mutex_t	*mutex_is_dead;
+
 	// Forks
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 

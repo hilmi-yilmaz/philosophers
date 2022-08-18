@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_data.h                                         :+:    :+:            */
+/*   init_philo_data.h                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/07 17:05:19 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 10:50:30 by hyilmaz       ########   odam.nl         */
+/*   Created: 2022/08/18 10:55:42 by hyilmaz       #+#    #+#                 */
+/*   Updated: 2022/08/18 11:41:48 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_DATA_H
-# define SET_DATA_H
+#ifndef INIT_PHILO_DATA_H
+# define INIT_PHILO_DATA_H
 
 /* System headers */
+#include <stdbool.h>
 
 /* User defined headers */
-# include "data_structs.h"
-# include "input_validation.h"
-# include "utils/utils.h"
-# include "mutexes.h"
+#include "data_structs.h"
+#include "mutexes.h"
+#include "utils/utils.h"
 
 /* Function prototypes */
-void	set_input_data(char *argv[], t_input_data *input_data);
-bool	validate_and_set_input_data(int argc, char *argv[], t_input_data *input_data);
+t_philo_data	*init_philo_data(t_input_data *input_data);
 
-#endif
-
+#endif /* INIT_PHILO_DATA_H */

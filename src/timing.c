@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/04 15:51:01 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/10 16:10:21 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/18 14:58:21 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 ** The data is stored in end argument.
 */
 
-void	add_milliseconds_to_timeval(struct timeval *start, struct timeval *end, useconds_t milliseconds)
-{
-	// convert milliseconds to microseconds
-	suseconds_t microseconds = milliseconds * 1000;
+// void	add_milliseconds_to_timeval(struct timeval *start, struct timeval *end, useconds_t milliseconds)
+// {
+// 	// convert milliseconds to microseconds
+// 	suseconds_t microseconds = milliseconds * 1000;
 
-	// Extract seconds and microseconds from microseconds
-	time_t	seconds = microseconds / 1000000;
-	microseconds = microseconds % 1000000;
+// 	// Extract seconds and microseconds from microseconds
+// 	time_t	seconds = microseconds / 1000000;
+// 	microseconds = microseconds % 1000000;
 
-	end->tv_sec = start->tv_sec + seconds;
-	end->tv_usec = start->tv_usec + microseconds;
-}
+// 	end->tv_sec = start->tv_sec + seconds;
+// 	end->tv_usec = start->tv_usec + microseconds;
+// }
 
 t_milliseconds timeval_to_milliseconds(struct timeval time)
 {
@@ -47,44 +47,44 @@ t_milliseconds	get_current_timestamp_in_ms(t_milliseconds start_time)
 	return (timeval_to_milliseconds(current_time) - start_time);
 }
 
-int sleep_milliseconds(useconds_t milliseconds)
-{
-	struct timeval	current_time;
-	struct timeval	final_time;
-	t_milliseconds	current_time_milliseconds;
-	t_milliseconds	final_time_milliseconds;
-	useconds_t		sleep_interval_microseconds;
+// int sleep_milliseconds(useconds_t milliseconds)
+// {
+// 	struct timeval	current_time;
+// 	struct timeval	final_time;
+// 	t_milliseconds	current_time_milliseconds;
+// 	t_milliseconds	final_time_milliseconds;
+// 	useconds_t		sleep_interval_microseconds;
 
-	if (gettimeofday(&current_time, NULL) != 0)
-	{
-		printf("Error with gettimeofday function");
-		return (false);
-	}
-	add_milliseconds_to_timeval(&current_time, &final_time, milliseconds);
-	final_time_milliseconds = timeval_to_milliseconds(final_time);
-	sleep_interval_microseconds = 100;
+// 	if (gettimeofday(&current_time, NULL) != 0)
+// 	{
+// 		printf("Error with gettimeofday function");
+// 		return (false);
+// 	}
+// 	add_milliseconds_to_timeval(&current_time, &final_time, milliseconds);
+// 	final_time_milliseconds = timeval_to_milliseconds(final_time);
+// 	sleep_interval_microseconds = 100;
 
-	// sleep_interval_microseconds = milliseconds * 1000 / 4;
-	// if (sleep_interval_microseconds > 1000)
-	// 	sleep_interval_microseconds = 1000;
-	while (1)
-	{
-		if (usleep(sleep_interval_microseconds) != 0)
-		{
-			printf("Error with usleep function");
-			return (false);
-		}
-		if (gettimeofday(&current_time, NULL) != 0)
-		{
-			printf("Error with gettimeofday function");
-			return (false);
-		}
-		current_time_milliseconds = timeval_to_milliseconds(current_time);
-		if (current_time_milliseconds >= final_time_milliseconds)
-			return (true);
-	}
-	return (true);
-}
+// 	// sleep_interval_microseconds = milliseconds * 1000 / 4;
+// 	// if (sleep_interval_microseconds > 1000)
+// 	// 	sleep_interval_microseconds = 1000;
+// 	while (1)
+// 	{
+// 		if (usleep(sleep_interval_microseconds) != 0)
+// 		{
+// 			printf("Error with usleep function");
+// 			return (false);
+// 		}
+// 		if (gettimeofday(&current_time, NULL) != 0)
+// 		{
+// 			printf("Error with gettimeofday function");
+// 			return (false);
+// 		}
+// 		current_time_milliseconds = timeval_to_milliseconds(current_time);
+// 		if (current_time_milliseconds >= final_time_milliseconds)
+// 			return (true);
+// 	}
+// 	return (true);
+// }
 
 
 
