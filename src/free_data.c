@@ -12,16 +12,30 @@
 
 #include "free_data.h"
 
-void	free_data(t_philo_data *philos, pthread_t *philo_threads, pthread_t *monitor_thread)
+void	free_data(t_data *data, pthread_t *philo_threads, pthread_t *monitor_thread)
 {
-	// Destroy mutexes
-	destroy_mutexes(philos->forks, philos->input_data->number_of_philo);
+	size_t	i;
 
-	// Destroy last meal mutex
+	// Destroy mutexes
+	destroy_mutexes(data->forks, data->input_data->number_of_philo);
+	pthread_mutex_destroy(data->mutex_print);
+	pthread_mutex_destroy(data->mutex_is_dead);
+	i = 0;
+	while (i < data->input_data->number_of_philo)
+	{
+		pthread_mutex_destroy(&data[i].philo->mutex_timestamp_last_meal);
+		free(data[i].philo);
+		i++;
+	}
 
 	// Free all data
-	free(philos);
-	free(philos->forks);
+	// free(data->input_data);
+	free(data->simulation_start_time);
+	free(data->is_dead);
+	free(data->mutex_is_dead);
+	free(data->mutex_print);
+	free(data->forks);
+	free(data);
 	free(philo_threads);
 	free(monitor_thread);
 }

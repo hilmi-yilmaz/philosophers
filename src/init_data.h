@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_PHILO_DATA_H
-# define INIT_PHILO_DATA_H
+#ifndef INIT_DATA_H
+# define INIT_DATA_H
 
 /* System headers */
 #include <stdbool.h>
@@ -19,9 +19,10 @@
 /* User defined headers */
 #include "data_structs.h"
 #include "mutexes.h"
+#include "timing.h"
 #include "utils/utils.h"
 
 /* Function prototypes */
-t_philo_data	*init_philo_data(t_input_data *input_data);
+t_data	*init_data(t_input_data *input_data);
 
-#endif /* INIT_PHILO_DATA_H */
+#endif /* INIT_DATA_H */

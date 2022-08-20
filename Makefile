@@ -12,19 +12,21 @@
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
-CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
+
+# Codam
+# CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 
 # OWN LAPTOP
-# CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
-# CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
+CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
+CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
 
 
 # Header files
 HEADER_FILES = 	src/input_validation.h \
 				src/set_data.h \
-				src/init_philo_data.h \
+				src/init_data.h \
 				src/mutexes.h \
 				src/timing.h \
 				src/start_threads.h \
@@ -35,7 +37,7 @@ HEADER_FILES = 	src/input_validation.h \
 SRC_FILES = src/main.c \
 			src/input_validation.c \
 			src/set_data.c \
-			src/init_philo_data.c \
+			src/init_data.c \
 			src/mutexes.c \
 			src/timing.c \
 			src/start_threads.c \
@@ -67,7 +69,6 @@ TEST_FILES = 	test/test_utils.c \
 				test/test_set_data.c \
 				src/set_data.c \
 				test/test_timing.c \
-				test/test_add_timeval.c \
 				src/timing.c
 
 
@@ -87,7 +88,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 4 400 200 100
+	@./$(NAME) 4 40 20 30
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
@@ -110,8 +111,9 @@ $(TEST_OBJ_DIR):
 
 
 # OWN LAPTOP: $(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
+# CODAM: $(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
 $(TEST_NAME): $(TEST_OBJ_FILES)
-	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
+	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 
 $(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)

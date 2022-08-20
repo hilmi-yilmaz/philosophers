@@ -33,7 +33,10 @@ bool	validate_input(int argc, char *argv[])
 	int		err;
 	
 	if (argc != 5 && argc != 6)
+	{
+		printf("No inputs provided\n");
 		return (false);
+	}
 	i = 0;
 	err = 0;
 	while (argv[i] != NULL)

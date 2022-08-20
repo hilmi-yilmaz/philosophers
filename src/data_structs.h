@@ -37,36 +37,65 @@ typedef struct s_input_data
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			number_of_times_to_eat;
+	int				number_of_times_to_eat;
 }		t_input_data;
 
-typedef struct s_philo_data
+// typedef struct s_philo_data
+// {
+
+// 	// Philosopher ID
+// 	size_t			philo_id;
+
+// 	// Pointer to input data
+// 	t_input_data	*input_data;
+
+// 	// Is the philosopher dead?
+// 	bool			*is_dead;
+// 	pthread_mutex_t	*mutex_is_dead;
+
+// 	// How many times has the philo already eaten?
+// 	int				*times_ate;
+// 	pthread_mutex_t	*mutex_times_ate;
+
+// 	// Forks
+// 	pthread_mutex_t	*forks;
+// 	pthread_mutex_t	*right_fork;
+// 	pthread_mutex_t	*left_fork;
+
+// 	// Starting time
+// 	t_milliseconds	simulation_start_time;
+
+// 	// Mutex for checking when the philo last ate
+// 	t_milliseconds	*timestamp_last_meal;
+// 	pthread_mutex_t	*mutex_timestamp_last_meal;
+
+// 	// Mutex for printing messages to the console
+// 	pthread_mutex_t	*mutex_print;
+// }		t_philo_data;
+
+
+typedef struct s_philo
 {
+	size_t			id;
+	bool			done_eating;
+	t_milliseconds	timestamp_last_meal;
+	pthread_mutex_t	mutex_timestamp_last_meal;
 
-	// Philosopher ID
-	size_t			philo_id;
+}	t_philo;
 
-	// Pointer to input data
+typedef struct s_data
+{
+	// Shared data
 	t_input_data	*input_data;
-
-	// Is the philosopher dead?
+	size_t			*simulation_start_time;
 	bool			*is_dead;
 	pthread_mutex_t	*mutex_is_dead;
-
-	// Forks
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*left_fork;
-
-	// Starting time
-	t_milliseconds	simulation_start_time;
-
-	// Mutex for checking when the philo last ate
-	t_milliseconds	*timestamp_last_meal;
-	pthread_mutex_t	*mutex_timestamp_last_meal;
-
-	// Mutex for printing messages to the console
 	pthread_mutex_t	*mutex_print;
-}		t_philo_data;
+
+	// Unique data
+	t_philo			*philo;
+
+}	t_data;
 
 #endif

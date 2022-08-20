@@ -1,5 +1,4 @@
-- Add timestamps to output
-- Refactor code
-- Add 5th argument to threads: number_of_times_to_eat
-- Fix print messages 
-- Add Dockerfile for Valgrind
+- Fix bug with number_of_times_to_eat: If I specify that value, philo's die. If I remove that value, the simulation goes on infinitely.
+- Free all data
+- Change ..._new function to correct names
+- Fix output conform subject.pdf

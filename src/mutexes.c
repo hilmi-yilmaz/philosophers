@@ -18,14 +18,13 @@ pthread_mutex_t	*create_mutexes(size_t number_of_forks)
 	pthread_mutex_t	*forks;
 	
 	i = 0;
-	forks = ft_calloc(number_of_forks, sizeof(*forks));
+	forks = ft_calloc(number_of_forks + 1, sizeof(pthread_mutex_t));
 	if (forks == NULL)
 		return (NULL);
 	while (i < number_of_forks)
 	{
 		if (pthread_mutex_init(&forks[i], NULL))
 		{
-			// Destroy mutexes that where created
 			destroy_mutexes(forks, i);
 			printf("Error with pthread_mutex_init");
 			return (NULL);

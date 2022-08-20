@@ -22,6 +22,6 @@
 #include "utils/utils.h"
 
 /* Function prototypes */
-void	free_data(t_philo_data *philos, pthread_t *philo_threads, pthread_t *monitor_thread);
+void	free_data(t_data *data, pthread_t *philo_threads, pthread_t *monitor_thread);
 
 #endif /* FREE_DATA_H */

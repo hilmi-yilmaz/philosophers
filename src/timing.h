@@ -27,13 +27,9 @@
 
 /* Function prototypes */
 t_milliseconds	timeval_to_milliseconds(struct timeval time);
-t_milliseconds	get_current_timestamp_in_ms(t_milliseconds start_time);
-void			add_milliseconds_to_timeval(struct timeval *start, struct timeval *end, useconds_t milliseconds);
-int 			sleep_milliseconds(useconds_t microseconds);
-
-// New timing functions
-t_milliseconds	get_current_timestamp_in_ms_new(void);
-bool sleep_milliseconds_new(useconds_t milliseconds);
+t_milliseconds	get_simulation_timestamp_in_ms(t_milliseconds start_time);
+t_milliseconds	get_current_timestamp_in_ms(void);
+bool            sleep_milliseconds(useconds_t milliseconds);
 
 #endif
 

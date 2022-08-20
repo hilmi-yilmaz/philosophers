@@ -80,7 +80,7 @@ Test(SleepMilliseconds, SleepMillisecondsRangeTest)
 		{
 
 			gettimeofday(&start_time, NULL);
-			sleep_milliseconds_new(milliseconds);
+			sleep_milliseconds(milliseconds);
 			gettimeofday(&end_time, NULL);
 			
 			// Calculate the actual milliseconds slept
