@@ -285,7 +285,7 @@
 // 	}
 // 	return threads;
 // }
-
+void print_status(t_data *data, char *status, char *colorcode);
 
 bool	is_dead(t_data *data)
 {
@@ -293,8 +293,29 @@ bool	is_dead(t_data *data)
 
 	pthread_mutex_lock(data->mutex_is_dead);
 	is_dead = *data->is_dead;
+	if (is_dead == true)
+	{
+		printf("someone dies!!! so philo %lu should stop printing\n", data->philo->id);
+	}
 	pthread_mutex_unlock(data->mutex_is_dead);
 	return (is_dead);
+}
+
+void print_status(t_data *data, char *status, char *colorcode)
+{
+	t_milliseconds	current_time_ms;
+
+	if (is_dead(data))
+		return ;
+	pthread_mutex_lock(data->mutex_print);
+	// if (is_dead(data))
+	// {
+	// 	pthread_mutex_unlock(data->mutex_print);
+	// 	return ;
+	// }
+	current_time_ms = get_simulation_timestamp_in_ms(*data->simulation_start_time);
+	printf("%s%-6lu %lu %s%s\n", colorcode, current_time_ms, data->philo->id, status, RESET);
+	pthread_mutex_unlock(data->mutex_print);
 }
 
 void	set_dead(t_data *data)
@@ -305,24 +326,12 @@ void	set_dead(t_data *data)
 
 }
 
-void print_status(t_data *data, char *status)
-{
-	t_milliseconds	current_time_ms;
-
-	if (is_dead(data))
-		return ;
-	pthread_mutex_lock(data->mutex_print);
-	current_time_ms = get_simulation_timestamp_in_ms(*data->simulation_start_time);
-	printf("timestamp: %-6lu ms --> %lu %s\n", current_time_ms, data->philo->id, status);
-	pthread_mutex_unlock(data->mutex_print);
-}
-
 void	pick_up_forks(t_data *data)
 {
 	pthread_mutex_lock(&data->forks[RIGHT_FORK(data->philo->id - 1, data->input_data->number_of_philo)]);
-	print_status(data, "has taken a fork");
+	print_status(data, "has taken a fork", BLUE);
 	pthread_mutex_lock(&data->forks[LEFT_FORK(data->philo->id - 1)]);
-	print_status(data, "has taken a fork");
+	print_status(data, "has taken a fork", BLUE);
 }
 
 void	set_start_eating_time(t_data *data)
@@ -332,9 +341,16 @@ void	set_start_eating_time(t_data *data)
 	pthread_mutex_unlock(&data->philo->mutex_timestamp_last_meal);
 }
 
+void	set_done_eating(t_data *data)
+{
+	pthread_mutex_lock(&data->philo->mutex_done_eating);
+	data->philo->done_eating = true;
+	pthread_mutex_unlock(&data->philo->mutex_done_eating);
+}
+
 void	eat(t_data *data)
 {
-	print_status(data, "is eating");
+	print_status(data, "is eating", GREEN);
 	sleep_milliseconds(data->input_data->time_to_eat);
 }
 
@@ -346,31 +362,44 @@ void	release_forks(t_data *data)
 
 void	_sleep(t_data *data)
 {
-	print_status(data, "is sleeping");
+	print_status(data, "is sleeping", CYAN);
 	sleep_milliseconds(data->input_data->time_to_sleep);
 }
 
 void	think(t_data *data)
 {
-	print_status(data, "is thinking");
+	print_status(data, "is thinking", PURPLE);
 }
 
 void	*philo_routine(void *arg)
 {
 	t_data	*data;
+	int		times_ate;
 
 	data = arg;
+	times_ate = 0;
 	if (data->philo->id % 2 == 0)
 		sleep_milliseconds(1);
 	while (!is_dead(data))
 	{
+		// printf("Philoing\n");
 		pick_up_forks(data);
 		set_start_eating_time(data);
 		eat(data);
 		release_forks(data);
+		times_ate++;
+		if (data->input_data->number_of_times_to_eat != -1 &&\
+			times_ate == data->input_data->number_of_times_to_eat)
+		{
+			// print_status(data, "done eating");
+			set_done_eating(data);
+			return (NULL);
+		}
 		_sleep(data);
 		think(data);
 	}
+	// release all forks
+
 	return (NULL); 
 }
 
@@ -380,18 +409,37 @@ void	*monitor_routine(void *arg)
 	t_data			*data = arg;
 	t_milliseconds	current_timestamp;
 	size_t			time_to_die = data->input_data->time_to_die;
+	size_t			total_finished_eating;
 
 	while (1)
 	{
+		// printf("Monitoring\n");
+		// Check if all philosophers are done eating
+		i = 0;
+		total_finished_eating = 0;
+		while (i < data->input_data->number_of_philo)
+		{
+			pthread_mutex_lock(&data[i].philo->mutex_done_eating);
+			if (data[i].philo->done_eating == true)
+				total_finished_eating += 1;
+			pthread_mutex_unlock(&data[i].philo->mutex_done_eating);
+			i++;
+		}
+		if (total_finished_eating == data->input_data->number_of_philo)
+		{
+			// print_status(data, "all philo's done eating\n");
+			return (NULL);
+		}
+
+		// Check if philosopher i died
 		i = 0;
 		while (i < data->input_data->number_of_philo)
 		{
-			// Check if philosopher i died
 			pthread_mutex_lock(&data[i].philo->mutex_timestamp_last_meal);
 			current_timestamp = get_simulation_timestamp_in_ms(*data->simulation_start_time);
 			if (data[i].philo->timestamp_last_meal + time_to_die < current_timestamp)
 			{
-				print_status(&data[i], "died");
+				print_status(&data[i], "died", RED);
 				set_dead(data);
 				pthread_mutex_unlock(&data[i].philo->mutex_timestamp_last_meal);
 				return (NULL);
@@ -399,6 +447,7 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&data[i].philo->mutex_timestamp_last_meal);
 			i++;
 		}
+
 		sleep_milliseconds(1);
 	}
 	return (0);

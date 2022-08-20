@@ -69,12 +69,6 @@ int	main(int argc, char *argv[])
 	if (philo_threads == NULL)
 		return (-1);
 
-	// philos = init_philo_data(&input_data);
-	// if (philos == NULL)
-	// 	return (-1);
-	// threads = start_philo_threads(philos);
-	// if (threads == NULL)
-	// 	return (-1);
 	monitor_thread = start_monitoring_thread(data);
 	if (monitor_thread == NULL)
 		return (-1);
@@ -90,20 +84,6 @@ int	main(int argc, char *argv[])
 	}
 
 	pthread_join(*monitor_thread, NULL);
-
-	// // // Destroy mutexes
-	// // destroy_mutexes(philos->forks, input_data.number_of_philo);
-
-	// // // Destroy last meal mutex
-
-	// // Destroy is dead (+ its mutex)
-
-	// // // Free all data
-	// // free(philos);
-	// // free(philos->forks);
-	// // free(threads);
-	// // free(monitor_thread);
 	free_data(data, philo_threads, monitor_thread);
-
 	return (0);
 }

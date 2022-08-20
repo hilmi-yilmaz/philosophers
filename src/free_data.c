@@ -23,13 +23,13 @@ void	free_data(t_data *data, pthread_t *philo_threads, pthread_t *monitor_thread
 	i = 0;
 	while (i < data->input_data->number_of_philo)
 	{
+		pthread_mutex_destroy(&data[i].philo->mutex_done_eating);
 		pthread_mutex_destroy(&data[i].philo->mutex_timestamp_last_meal);
 		free(data[i].philo);
 		i++;
 	}
 
 	// Free all data
-	// free(data->input_data);
 	free(data->simulation_start_time);
 	free(data->is_dead);
 	free(data->mutex_is_dead);

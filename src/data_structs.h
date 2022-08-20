@@ -19,7 +19,17 @@
 # include <stdbool.h>
 
 /* User defined headers */
-// # include "timing.h"
+
+
+/* Macros */
+# define RED "\033[0;31m"
+# define BLUE "\033[0;34m"
+# define GREEN "\033[0;32m"
+# define CYAN "\033[0;36m"
+# define PURPLE "\033[0;35m"
+# define RESET "\033[0m"
+
+/* User defined types */
 typedef unsigned long t_milliseconds;
 
 /* Holds all data relevant for this project */
@@ -78,6 +88,7 @@ typedef struct s_philo
 {
 	size_t			id;
 	bool			done_eating;
+	pthread_mutex_t	mutex_done_eating;
 	t_milliseconds	timestamp_last_meal;
 	pthread_mutex_t	mutex_timestamp_last_meal;
 

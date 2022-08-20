@@ -12,7 +12,7 @@
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 
 # Codam
@@ -88,7 +88,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 4 40 20 30
+	@./$(NAME) 1 800 200 200
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@

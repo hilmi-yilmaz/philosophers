@@ -15,13 +15,21 @@
 static t_philo	*init_philo(size_t i)
 {
 	t_philo	*philo;
-	
 
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (philo == NULL)
 		return (NULL);
 	philo->id = i + 1;
+
+
 	philo->done_eating = false;
+	if (pthread_mutex_init(&philo->mutex_done_eating, NULL))
+	{
+		printf("Error with pthread_mutex_init");
+		return (NULL);
+	}
+	
+	
 	philo->timestamp_last_meal = 0;
 	if (pthread_mutex_init(&philo->mutex_timestamp_last_meal, NULL))
 	{
