@@ -1,4 +1,5 @@
 - Fix: init data with mallocs -> change input data to shared data
+- Conform project structure to subject requirements
 
 # Tests
 - Test program with inputs: 4 39 20 10 1

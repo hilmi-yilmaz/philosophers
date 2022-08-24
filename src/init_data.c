@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_philo_data.c                                  :+:    :+:            */
+/*   init_data.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 10:54:51 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 16:30:27 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 17:22:03 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_data	*init_data(t_input_data *input_data)
 	pthread_mutex_t	*mutex_print;
 	t_milliseconds	*simulation_start_time;
 
-	data = ft_calloc(input_data->number_of_philo + 1, sizeof(t_data));
+	data = ft_calloc(input_data->number_of_philo, sizeof(t_data));
 	if (data == NULL)
 		return (NULL);
 
