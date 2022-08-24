@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 11:35:37 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 16:30:51 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 12:25:34 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,35 +391,37 @@ void	_sleep(t_data *data)
 void	think(t_data *data)
 {
 	print_status(data, "is thinking", PURPLE);
+	// usleep(50);
 }
 
 void	*philo_routine(void *arg)
 {
 	t_data	*data;
 	int		times_ate;
-	size_t	i;
 
 	data = arg;
 	times_ate = 0;
-	i = 0;
-	// if (data->philo->id % 2 == 0)
-	// 	sleep_milliseconds(1);
+	if (data->philo->id % 2 == 0)
+	{
+		_sleep(data);
+		think(data);
+	}
 	while (!is_dead(data))
 	{
-		if (!(i == 0 && data->philo->id % 2 == 0))
-		{
-			pick_up_forks(data);
-			set_start_eating_time(data);
-			eat(data);
-			release_forks(data);
-			times_ate++;
-		}
+		// if (!(i == 0 && data->philo->id % 2 == 0))
+		// {
+		// 	pick_up_forks(data);
+		// 	set_start_eating_time(data);
+		// 	eat(data);
+		// 	release_forks(data);
+		// 	times_ate++;
+		// }
 
-		// pick_up_forks(data);
-		// set_start_eating_time(data);
-		// eat(data);
-		// release_forks(data);
-		// times_ate++;
+		pick_up_forks(data);
+		set_start_eating_time(data);
+		eat(data);
+		release_forks(data);
+		times_ate++;
 		if (data->input_data->number_of_times_to_eat != -1 &&\
 			times_ate == data->input_data->number_of_times_to_eat)
 		{
@@ -429,7 +431,6 @@ void	*philo_routine(void *arg)
 		}
 		_sleep(data);
 		think(data);
-		i++;
 	}
 	return (NULL); 
 }
@@ -440,27 +441,27 @@ void	*monitor_routine(void *arg)
 	t_data			*data = arg;
 	t_milliseconds	current_timestamp;
 	size_t			time_to_die = data->input_data->time_to_die;
-	size_t			total_finished_eating;
+	// size_t			total_finished_eating;
 
 	while (1)
 	{
 		// printf("Monitoring\n");
 		// Check if all philosophers are done eating
-		i = 0;
-		total_finished_eating = 0;
-		while (i < data->input_data->number_of_philo)
-		{
-			pthread_mutex_lock(&data[i].philo->mutex_done_eating);
-			if (data[i].philo->done_eating == true)
-				total_finished_eating += 1;
-			pthread_mutex_unlock(&data[i].philo->mutex_done_eating);
-			i++;
-		}
-		if (total_finished_eating == data->input_data->number_of_philo)
-		{
-			// print_status(data, "all philo's done eating\n");
-			return (NULL);
-		}
+		// i = 0;
+		// total_finished_eating = 0;
+		// while (i < data->input_data->number_of_philo)
+		// {
+		// 	pthread_mutex_lock(&data[i].philo->mutex_done_eating);
+		// 	if (data[i].philo->done_eating == true)
+		// 		total_finished_eating += 1;
+		// 	pthread_mutex_unlock(&data[i].philo->mutex_done_eating);
+		// 	i++;
+		// }
+		// if (total_finished_eating == data->input_data->number_of_philo)
+		// {
+		// 	// print_status(data, "all philo's done eating\n");
+		// 	return (NULL);
+		// }
 
 		// Check if philosopher i died
 		i = 0;
@@ -479,7 +480,7 @@ void	*monitor_routine(void *arg)
 			i++;
 		}
 
-		sleep_milliseconds(1);
+		// sleep_milliseconds(1);
 	}
 	return (0);
 }
@@ -500,6 +501,7 @@ pthread_t	*start_philo_threads(t_data *data)
 			printf("Error with pthread_create");
 			return (NULL);
 		}
+		// usleep(200 - i);
 		i++;
 	}
 	return (threads);
