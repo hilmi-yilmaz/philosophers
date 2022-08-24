@@ -293,10 +293,10 @@ bool	is_dead(t_data *data)
 
 	pthread_mutex_lock(data->mutex_is_dead);
 	is_dead = *data->is_dead;
-	if (is_dead == true)
-	{
-		printf("someone dies!!! so philo %lu should stop printing\n", data->philo->id);
-	}
+	// if (is_dead == true)
+	// {
+	// 	printf("someone dies!!! so philo %lu should stop printing\n", data->philo->id);
+	// }
 	pthread_mutex_unlock(data->mutex_is_dead);
 	return (is_dead);
 }
@@ -305,16 +305,23 @@ void print_status(t_data *data, char *status, char *colorcode)
 {
 	t_milliseconds	current_time_ms;
 
-	if (is_dead(data))
-		return ;
-	pthread_mutex_lock(data->mutex_print);
 	// if (is_dead(data))
-	// {
-	// 	pthread_mutex_unlock(data->mutex_print);
 	// 	return ;
-	// }
+	pthread_mutex_lock(data->mutex_print);
+	if (is_dead(data))
+	{
+		pthread_mutex_unlock(data->mutex_print);
+		return ;
+	}
 	current_time_ms = get_simulation_timestamp_in_ms(*data->simulation_start_time);
-	printf("%s%-6lu %lu %s%s\n", colorcode, current_time_ms, data->philo->id, status, RESET);
+
+	// Print with color
+	// printf("%s%-6lu %lu %s%s\n", colorcode, current_time_ms, data->philo->id, status, RESET);
+	
+	// Print wihtout color
+	(void)colorcode;
+	printf("%-6lu %lu %s\n", current_time_ms, data->philo->id, status);
+
 	pthread_mutex_unlock(data->mutex_print);
 }
 
@@ -332,6 +339,21 @@ void	pick_up_forks(t_data *data)
 	print_status(data, "has taken a fork", BLUE);
 	pthread_mutex_lock(&data->forks[LEFT_FORK(data->philo->id - 1)]);
 	print_status(data, "has taken a fork", BLUE);
+
+
+	// if (data->philo->id % 2 == 0)
+	// {
+	// 	pthread_mutex_lock(&data->forks[RIGHT_FORK(data->philo->id - 1, data->input_data->number_of_philo)]);
+	// 	print_status(data, "has taken a fork", BLUE);
+	// 	pthread_mutex_lock(&data->forks[LEFT_FORK(data->philo->id - 1)]);
+	// 	print_status(data, "has taken a fork", BLUE);
+	// 	return ;
+	// }
+	// pthread_mutex_lock(&data->forks[LEFT_FORK(data->philo->id - 1)]);
+	// print_status(data, "has taken a fork", BLUE);
+	// pthread_mutex_lock(&data->forks[RIGHT_FORK(data->philo->id - 1, data->input_data->number_of_philo)]);
+	// print_status(data, "has taken a fork", BLUE);
+
 }
 
 void	set_start_eating_time(t_data *data)
@@ -375,19 +397,29 @@ void	*philo_routine(void *arg)
 {
 	t_data	*data;
 	int		times_ate;
+	size_t	i;
 
 	data = arg;
 	times_ate = 0;
-	if (data->philo->id % 2 == 0)
-		sleep_milliseconds(1);
+	i = 0;
+	// if (data->philo->id % 2 == 0)
+	// 	sleep_milliseconds(1);
 	while (!is_dead(data))
 	{
-		// printf("Philoing\n");
-		pick_up_forks(data);
-		set_start_eating_time(data);
-		eat(data);
-		release_forks(data);
-		times_ate++;
+		if (!(i == 0 && data->philo->id % 2 == 0))
+		{
+			pick_up_forks(data);
+			set_start_eating_time(data);
+			eat(data);
+			release_forks(data);
+			times_ate++;
+		}
+
+		// pick_up_forks(data);
+		// set_start_eating_time(data);
+		// eat(data);
+		// release_forks(data);
+		// times_ate++;
 		if (data->input_data->number_of_times_to_eat != -1 &&\
 			times_ate == data->input_data->number_of_times_to_eat)
 		{
@@ -397,9 +429,8 @@ void	*philo_routine(void *arg)
 		}
 		_sleep(data);
 		think(data);
+		i++;
 	}
-	// release all forks
-
 	return (NULL); 
 }
 

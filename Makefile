@@ -88,7 +88,7 @@ TEST_NAME = test_philo
 all: $(RELEASE_OBJ_DIR) $(NAME)
 
 run: all
-	@./$(NAME) 1 800 200 200
+	@./$(NAME) 200 800 200 200 2
 
 $(RELEASE_OBJ_DIR):
 	mkdir -p $@
