@@ -6,13 +6,13 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/24 16:10:06 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/24 17:51:48 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation configuration parameters
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -O3
+CFLAGS = -Wall -Wextra -Werror -pthread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 
 # Codam

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_philo_data.h                                  :+:    :+:            */
+/*   init_data.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 10:55:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 11:41:48 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 17:47:58 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 #include "utils/utils.h"
 
 /* Function prototypes */
-t_data	*init_data(t_input_data *input_data);
+t_data	*init_data(t_shared_data *shared_data);
 
 #endif /* INIT_DATA_H */

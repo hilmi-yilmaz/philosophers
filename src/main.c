@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 16:10:17 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 18:00:21 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,38 +48,39 @@
 // 	}
 // }
 
+// gcc src/main.c src/input_validation.c src/init_data.c src/set_data.c src/timing.c src/utils/*.c src/mutexes.c  -pthread && ./a.out 4 400 200 100
 
 int	main(int argc, char *argv[])
 {
-	t_input_data	input_data;
+	t_shared_data	input_data;
 	t_data			*data;
-	pthread_t		*philo_threads;
-	pthread_t		*monitor_thread;
+	// pthread_t		*philo_threads;
+	// pthread_t		*monitor_thread;
 	
 	if (validate_and_set_input_data(argc, argv, &input_data) == false)
 		return (-1);
 	data = init_data(&input_data);
 	if (data == NULL)
 		return (-1);
-	philo_threads = start_philo_threads(data);
-	if (philo_threads == NULL)
-		return (-1);
-	monitor_thread = start_monitoring_thread(data);
-	if (monitor_thread == NULL)
-		return (-1);
-	join_threads(input_data, philo_threads, monitor_thread);
+	// philo_threads = start_philo_threads(data);
+	// if (philo_threads == NULL)
+	// 	return (-1);
+	// monitor_thread = start_monitoring_thread(data);
+	// if (monitor_thread == NULL)
+	// 	return (-1);
+	// join_threads(input_data, philo_threads, monitor_thread);
 
-	// // Join the threads
-	// size_t i = 0;
-	// void *ret_val;
-	// while (i < input_data.number_of_philo)
-	// {
-	// 	pthread_join(philo_threads[i], &ret_val);
-	// 	// printf("thread %lu retval %lu\n", i, (size_t)ret_val);
-	// 	i++;
-	// }
-	// pthread_join(*monitor_thread, NULL);
+	// // // Join the threads
+	// // size_t i = 0;
+	// // void *ret_val;
+	// // while (i < input_data.number_of_philo)
+	// // {
+	// // 	pthread_join(philo_threads[i], &ret_val);
+	// // 	// printf("thread %lu retval %lu\n", i, (size_t)ret_val);
+	// // 	i++;
+	// // }
+	// // pthread_join(*monitor_thread, NULL);
 
-	free_data(data, philo_threads, monitor_thread);
+	// free_data(data, philo_threads, monitor_thread);
 	return (0);
 }

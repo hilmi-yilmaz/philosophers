@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:00:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 17:29:01 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 17:48:33 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ typedef struct s_input_data
 	int				number_of_times_to_eat;
 }		t_input_data;
 
+typedef struct s_shared_data
+{
+	size_t			number_of_philo;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	int				number_of_times_to_eat;
+	size_t			simulation_start_time;
+	bool			is_dead;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	mutex_is_dead;
+	pthread_mutex_t	mutex_print;
+
+
+}	t_shared_data;
+
 typedef struct s_philo
 {
 	size_t			id;
@@ -60,13 +76,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	// Shared data
-	t_input_data	*input_data;
-	size_t			*simulation_start_time;
-	bool			*is_dead;
-	pthread_mutex_t	*mutex_is_dead;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*mutex_print;
-
+	t_shared_data	*shared_data;
 	// Unique data
 	t_philo			*philo;
 

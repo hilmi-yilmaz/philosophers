@@ -1,5 +1,7 @@
 - Fix: init data with mallocs -> change input data to shared data
 - Conform project structure to subject requirements
+- Move simulation_start_time as close to starting of threads as possible.
+- Write function that initializes thread
 
 # Tests
 - Test program with inputs: 4 39 20 10 1
