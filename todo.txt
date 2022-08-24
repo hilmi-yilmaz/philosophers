@@ -1,3 +1,5 @@
+- Fix: init data with mallocs -> change input data to shared data
+
+# Tests
 - Test program with inputs: 4 39 20 10 1
-- Test program with inputs: 200 400 200 100 (sleep printed after a philosopher dies, or it waits long before terminating)
 - Test with 1 and 2 philosophers

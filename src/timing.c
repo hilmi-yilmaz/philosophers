@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/04 15:51:01 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 14:58:21 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 15:14:39 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ bool sleep_milliseconds(useconds_t milliseconds)
 	// Sleep in steps in a loop
 	// If 'milliseconds' passed, break
 	while (get_current_timestamp_in_ms() - current_time < milliseconds)
-		usleep(100);
+		usleep(250);
 	return (true);
 }

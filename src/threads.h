@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   start_threads.h                                    :+:    :+:            */
+/*   threads.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 11:35:50 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 12:05:17 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/24 16:09:57 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef START_THREADS_H
-# define START_THREADS_H
+#ifndef THREADS_H
+# define THREADS_H
 
 /* System headers */
 # include <pthread.h>
@@ -19,16 +19,16 @@
 
 /* User defined headers */
 # include "data_structs.h"
-# include "timing.h"
+# include "philo.h"
+# include "monitor.h"
 # include "utils/utils.h"
-
-/* Macros */
-# define RIGHT_FORK(i, number_of_philo) ((i + 1) % number_of_philo)
-# define LEFT_FORK(i) (i)
 
 /* Function prototypes */
 pthread_t	*start_philo_threads(t_data *data);
 pthread_t	*start_monitoring_thread(t_data *data);
+void		join_threads(t_input_data input_data, pthread_t *philo_threads,\
+						pthread_t *monitor_thread);
+
 
 
 

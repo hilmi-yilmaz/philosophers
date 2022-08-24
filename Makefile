@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/24 11:48:28 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/24 16:10:06 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ HEADER_FILES = 	src/input_validation.h \
 				src/init_data.h \
 				src/mutexes.h \
 				src/timing.h \
-				src/start_threads.h \
+				src/threads.h \
+				src/philo.h \
+				src/monitor.h \
 				src/free_data.h \
 				src/utils/utils.h
 
@@ -40,7 +42,9 @@ SRC_FILES = src/main.c \
 			src/init_data.c \
 			src/mutexes.c \
 			src/timing.c \
-			src/start_threads.c \
+			src/threads.c \
+			src/philo.c \
+			src/monitor.c \
 			src/free_data.c \
 			src/utils/ft_isdigit.c \
 			src/utils/ft_isspace.c \
