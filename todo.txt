@@ -1,6 +1,7 @@
 - Conform project structure to subject requirements
-- Check error cases of functions (malloc etc)
+- Norminette
 
 # Tests
 - Test LazyPhilosophers
 - Check for data races with valgrind hellgrind and fsanitize=thread
+- Check leaks

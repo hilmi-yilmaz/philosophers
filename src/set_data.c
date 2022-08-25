@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:04:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 13:13:12 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 16:59:26 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	validate_input(int argc, char *argv[])
 	
 	if (argc != 5 && argc != 6)
 	{
-		printf("No inputs provided\n");
+		printf("You have to provide 4 or 5 arguments!\n");
 		return (false);
 	}
 	i = 0;
@@ -55,11 +55,6 @@ bool	validate_input(int argc, char *argv[])
 		if (err == 1)
 		{
 			printf("Error: over- or underflow in one of the input values\n");
-			return (false);
-		}
-		if (converted_input < 0)
-		{
-			printf("Error: Negative number in one of the arguments");
 			return (false);
 		}
 		i++;

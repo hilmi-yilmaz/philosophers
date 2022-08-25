@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 12:55:26 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 17:07:12 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	main(int argc, char *argv[])
 	monitor_thread = start_monitoring_thread(data);
 	if (monitor_thread == NULL)
 		return (-1);
-	join_threads(shared_data, philo_threads, monitor_thread);
+	if (!join_threads(shared_data, philo_threads, monitor_thread))
+		return (-1);
 	free_data(data, philo_threads, monitor_thread);
 	return (0);
 }

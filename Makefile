@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/25 16:44:55 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/25 16:57:19 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ TEST_OBJ_DIR = test_obj
 TEST_OBJ_FILES = $(TEST_FILES:%.c=$(TEST_OBJ_DIR)/%.o)
 
 # Program names
-NAME = .philo
+NAME = philo
 TEST_NAME = test_philo
 
 # Default (release) build

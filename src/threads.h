@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 11:35:50 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 12:24:08 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 17:06:55 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 /* Function prototypes */
 pthread_t	*start_philo_threads(t_data *data);
 pthread_t	*start_monitoring_thread(t_data *data);
-void		join_threads(t_shared_data shared_data, pthread_t *philo_threads,\
+bool		join_threads(t_shared_data shared_data, pthread_t *philo_threads,\
 						pthread_t *monitor_thread);
 
 
