@@ -6,13 +6,68 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:04:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 17:50:15 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 13:13:12 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "set_data.h"
 
-static bool	set_input_data(char *argv[], t_shared_data *shared_data)
+static bool	only_numeric_characters(char *str_number)
+{
+	size_t	i;
+
+	i = 0;
+	while (str_number[i])
+	{
+		if (!ft_isdigit(str_number[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	validate_input(int argc, char *argv[])
+{
+	size_t	i;
+	int		converted_input;
+	int		err;
+	
+	if (argc != 5 && argc != 6)
+	{
+		printf("No inputs provided\n");
+		return (false);
+	}
+	i = 0;
+	err = 0;
+	while (argv[i] != NULL)
+	{
+		if (argv[i][0] == '\0')
+		{
+			printf("No empty strings allowed\n");
+			return (false);
+		}
+		if (!only_numeric_characters(argv[i]))
+		{
+			printf("Only numeric characters are accepted\n");
+			return (false);
+		}
+		converted_input = atoi_with_int_overflow_check(argv[i], &err);
+		if (err == 1)
+		{
+			printf("Error: over- or underflow in one of the input values\n");
+			return (false);
+		}
+		if (converted_input < 0)
+		{
+			printf("Error: Negative number in one of the arguments");
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+bool	set_input_data(char *argv[], t_shared_data *shared_data)
 {
 	int	err;
 
@@ -38,7 +93,6 @@ static bool	set_input_data(char *argv[], t_shared_data *shared_data)
 		printf("Error with pthread_mutex_init");
 		return (false);
 	}
-	shared_data->simulation_start_time = get_current_timestamp_in_ms();
 	return (true);
 }
 
@@ -48,6 +102,8 @@ bool	validate_and_set_input_data(int argc, char *argv[], t_shared_data *shared_d
 		return (false);
 	ft_memset(shared_data, 0, sizeof(t_shared_data));
 	if (!set_input_data(argv + 1, shared_data))
+		return (false);
+	if (shared_data->number_of_philo == 0)
 		return (false);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/06 16:38:47 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 18:00:21 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 12:55:26 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@
 // 	size_t	number_of_philo;
 
 // 	i = 0;
-// 	number_of_philo = data[0].input_data->number_of_philo;
+// 	number_of_philo = data[0].shared_data->number_of_philo;
 // 	while (i < number_of_philo)
 // 	{
-// 		printf("input_data = %p\n", data[i].input_data);
-// 		printf("simulation_start_time = %p\n", data[i].simulation_start_time);
-// 		printf("is_dead = %p\n", data[i].is_dead);
-// 		printf("mutex_is_dead = %p\n", data[i].mutex_is_dead);
-// 		printf("forks = %p\n", data[i].forks);
-// 		printf("mutex_print = %p\n", data[i].mutex_print);
+// 		printf("shared_data = %p\n", data[i].shared_data);
+// 		printf("simulation_start_time = %lu\n", data[i].shared_data->simulation_start_time);
+// 		printf("is_dead = %d\n", data[i].shared_data->is_dead);
+// 		printf("mutex_is_dead = %p\n", &data[i].shared_data->mutex_is_dead);
+// 		printf("forks = %p\n", data[i].shared_data->forks);
+// 		printf("mutex_print = %p\n", &data[i].shared_data->mutex_print);
 // 		printf("---------------\n");
 // 		printf("philo id = %lu\n", data[i].philo->id);
 // 		printf("philo done eating = %d\n", data[i].philo->done_eating);
@@ -52,35 +52,24 @@
 
 int	main(int argc, char *argv[])
 {
-	t_shared_data	input_data;
+	t_shared_data	shared_data;
 	t_data			*data;
-	// pthread_t		*philo_threads;
-	// pthread_t		*monitor_thread;
+	pthread_t		*philo_threads;
+	pthread_t		*monitor_thread;
 	
-	if (validate_and_set_input_data(argc, argv, &input_data) == false)
+	if (validate_and_set_input_data(argc, argv, &shared_data) == false)
 		return (-1);
-	data = init_data(&input_data);
+	data = init_data(&shared_data);
 	if (data == NULL)
 		return (-1);
-	// philo_threads = start_philo_threads(data);
-	// if (philo_threads == NULL)
-	// 	return (-1);
-	// monitor_thread = start_monitoring_thread(data);
-	// if (monitor_thread == NULL)
-	// 	return (-1);
-	// join_threads(input_data, philo_threads, monitor_thread);
-
-	// // // Join the threads
-	// // size_t i = 0;
-	// // void *ret_val;
-	// // while (i < input_data.number_of_philo)
-	// // {
-	// // 	pthread_join(philo_threads[i], &ret_val);
-	// // 	// printf("thread %lu retval %lu\n", i, (size_t)ret_val);
-	// // 	i++;
-	// // }
-	// // pthread_join(*monitor_thread, NULL);
-
-	// free_data(data, philo_threads, monitor_thread);
+	// print_data(data);
+	philo_threads = start_philo_threads(data);
+	if (philo_threads == NULL)
+		return (-1);
+	monitor_thread = start_monitoring_thread(data);
+	if (monitor_thread == NULL)
+		return (-1);
+	join_threads(shared_data, philo_threads, monitor_thread);
+	free_data(data, philo_threads, monitor_thread);
 	return (0);
 }

@@ -1,8 +1,6 @@
-- Fix: init data with mallocs -> change input data to shared data
 - Conform project structure to subject requirements
-- Move simulation_start_time as close to starting of threads as possible.
-- Write function that initializes thread
+- Check error cases of functions (malloc etc)
 
 # Tests
-- Test program with inputs: 4 39 20 10 1
-- Test with 1 and 2 philosophers
+- Test LazyPhilosophers
+- Check for data races with valgrind hellgrind and fsanitize=thread

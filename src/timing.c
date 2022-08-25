@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/04 15:51:01 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 15:14:39 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 13:09:49 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,14 @@ t_milliseconds	get_current_timestamp_in_ms(void)
 {
 	struct timeval current_time;
 
-	if (gettimeofday(&current_time, NULL) != 0)
-	{
-		printf("Error with gettimeofday function");
-		return (0);
-	}
+	gettimeofday(&current_time, NULL);
 	return (timeval_to_milliseconds(current_time));
 }
 
-bool sleep_milliseconds(useconds_t milliseconds)
+void sleep_milliseconds(useconds_t milliseconds)
 {
-	// Get current time
 	t_milliseconds current_time;
-
 	current_time = get_current_timestamp_in_ms();
-	if (current_time == 0)
-	{
-		// handle error
-		return (false);
-	}
-
-	// Sleep in steps in a loop
-	// If 'milliseconds' passed, break
 	while (get_current_timestamp_in_ms() - current_time < milliseconds)
 		usleep(250);
-	return (true);
 }

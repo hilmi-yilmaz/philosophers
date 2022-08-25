@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 11:35:37 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/24 16:17:26 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 12:56:24 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ pthread_t	*start_philo_threads(t_data *data)
 	pthread_t	*threads;
 
 	i = 0;
-	threads = ft_calloc(data->input_data->number_of_philo, sizeof(pthread_t));
+	threads = ft_calloc(data->shared_data->number_of_philo, sizeof(pthread_t));
 	if (threads == NULL)
 		return (NULL);
-	while (i < data->input_data->number_of_philo)
+	data->shared_data->simulation_start_time = get_current_timestamp_in_ms();
+	while (i < data->shared_data->number_of_philo)
 	{
 		if (pthread_create(&threads[i], NULL, philo_routine, &data[i]) != 0)
 		{
@@ -35,7 +36,6 @@ pthread_t	*start_philo_threads(t_data *data)
 
 pthread_t	*start_monitoring_thread(t_data *data)
 {
-	// Start monitoring thread
 	pthread_t	*thread;
 	thread = ft_calloc(1, sizeof(*thread));
 	if (thread == NULL)
@@ -48,13 +48,13 @@ pthread_t	*start_monitoring_thread(t_data *data)
 	return (thread);
 }
 
-void	join_threads(t_input_data input_data, pthread_t *philo_threads,
+void	join_threads(t_shared_data shared_data, pthread_t *philo_threads,
 					pthread_t *monitor_thread)
 {
 	size_t i;
 
 	i = 0;
-	while (i < input_data.number_of_philo)
+	while (i < shared_data.number_of_philo)
 	{
 		pthread_join(philo_threads[i], NULL);
 		i++;

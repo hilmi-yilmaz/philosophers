@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 12:51:35 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/18 10:51:06 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/25 13:10:20 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <criterion/new/assert.h>
 
 /* Source file to test */
-#include "../src/input_validation.h"
+#include "../src/set_data.h"
 
 /* Test utils */
 #include "test_utils.h"

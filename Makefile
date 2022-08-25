@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/24 17:51:48 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/25 16:44:55 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,7 @@ CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 
 
 # Header files
-HEADER_FILES = 	src/input_validation.h \
-				src/set_data.h \
+HEADER_FILES = 	src/set_data.h \
 				src/init_data.h \
 				src/mutexes.h \
 				src/timing.h \
@@ -37,7 +36,6 @@ HEADER_FILES = 	src/input_validation.h \
 
 # Source files
 SRC_FILES = src/main.c \
-			src/input_validation.c \
 			src/set_data.c \
 			src/init_data.c \
 			src/mutexes.c \
@@ -69,8 +67,8 @@ TEST_FILES = 	test/test_utils.c \
 				src/utils/ft_memset.c \
 				src/utils/ft_calloc.c \
 				test/test_input_validation.c \
-				src/input_validation.c \
 				test/test_set_data.c \
+				src/mutexes.c \
 				src/set_data.c \
 				test/test_timing.c \
 				src/timing.c
@@ -85,7 +83,7 @@ TEST_OBJ_DIR = test_obj
 TEST_OBJ_FILES = $(TEST_FILES:%.c=$(TEST_OBJ_DIR)/%.o)
 
 # Program names
-NAME = philo
+NAME = .philo
 TEST_NAME = test_philo
 
 # Default (release) build

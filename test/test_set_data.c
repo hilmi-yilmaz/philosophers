@@ -25,7 +25,7 @@
 
 /* Variables used in every test */
 static char		**argv = NULL;
-static t_input_data	data;
+static t_shared_data	data;
 
 /* Helper functions */
 
@@ -33,7 +33,7 @@ static t_input_data	data;
 void	setup_suite_set_input_data(void)
 {
 	argv = NULL;
-	memset(&data, 0, sizeof(t_input_data));
+	memset(&data, 0, sizeof(t_shared_data));
 }
 
 void	teardown_suite_set_input_data(void)
