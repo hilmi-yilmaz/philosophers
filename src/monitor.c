@@ -6,33 +6,24 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/24 15:38:35 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/31 15:35:13 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 16:58:29 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "monitor.h"
 
-// static void	set_dead(t_data *data)
-// {
-// 	pthread_mutex_lock(&data->shared_data->mutex_is_dead);
-// 	data->shared_data->is_dead = true;
-// 	pthread_mutex_unlock(&data->shared_data->mutex_is_dead);
-// }
-
-static void	print_died(t_data *data, char *status, char *colorcode)
+static void	set_dead(t_data *data, char *status, char *colorcode)
 {
 	t_milliseconds	current_time_ms;
 
 	pthread_mutex_lock(&data->shared_data->mutex_print);
-	pthread_mutex_lock(&data->shared_data->mutex_is_dead);
 	current_time_ms = get_simulation_timestamp_in_ms(
 			data->shared_data->simulation_start_time);
 	printf("%s%-6lu %lu %s%s\n", colorcode, current_time_ms,
 		data->philo->id, status, RESET);
-
+	pthread_mutex_lock(&data->shared_data->mutex_is_dead);
 	data->shared_data->is_dead = true;
 	pthread_mutex_unlock(&data->shared_data->mutex_is_dead);
-
 	pthread_mutex_unlock(&data->shared_data->mutex_print);
 }
 
@@ -72,8 +63,7 @@ static bool	a_philo_died(t_data *data)
 		if (data[i].philo->timestamp_last_meal + time_to_die < \
 				current_timestamp)
 		{
-			print_died(&data[i], "died", RED);
-			// set_dead(data);
+			set_dead(&data[i], "died", RED);
 			pthread_mutex_unlock(&data[i].philo->mutex_timestamp_last_meal);
 			return (true);
 		}

@@ -1,5 +1,4 @@
 - Conform project structure to subject requirements
-- Norminette
 
 # Tests
 - Test LazyPhilosophers

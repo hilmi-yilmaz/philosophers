@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:04:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/31 14:52:32 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 16:53:22 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ bool	set_input_data(char *argv[], t_shared_data *shared_data)
 	shared_data->forks = create_mutexes(shared_data->number_of_philo);
 	if (shared_data->forks == NULL)
 		return (false);
-	if (pthread_mutex_init(&shared_data->mutex_is_dead, NULL) && \
-		pthread_mutex_init(&shared_data->mutex_print, NULL))
+	if (pthread_mutex_init(&shared_data->mutex_is_dead, NULL) != 0 || \
+		pthread_mutex_init(&shared_data->mutex_print, NULL) != 0)
 	{
-		printf("Error with pthread_mutex_init");
+		printf("Error with pthread_mutex_init\n");
 		return (false);
 	}
 	return (true);

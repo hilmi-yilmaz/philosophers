@@ -6,13 +6,13 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/31 14:05:57 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/31 16:56:23 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation configuration parameters
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -pthread
+CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=thread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 
 # Codam
