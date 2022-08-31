@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 11:35:37 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 17:09:41 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 14:53:26 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ pthread_t	*start_philo_threads(t_data *data)
 pthread_t	*start_monitoring_thread(t_data *data)
 {
 	pthread_t	*thread;
-	
+
 	thread = ft_calloc(1, sizeof(*thread));
 	if (thread == NULL)
 		return (NULL);
@@ -52,7 +52,7 @@ pthread_t	*start_monitoring_thread(t_data *data)
 bool	join_threads(t_shared_data *shared_data, pthread_t *philo_threads,
 					pthread_t *monitor_thread)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < shared_data->number_of_philo)

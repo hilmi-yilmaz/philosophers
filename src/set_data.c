@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:04:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 16:59:26 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 14:52:32 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,34 @@ static bool	only_numeric_characters(char *str_number)
 	return (true);
 }
 
+static bool	check_command_line_arg(char **argv, size_t i)
+{
+	int	err;
+
+	if (argv[i][0] == '\0')
+	{
+		printf("No empty strings allowed\n");
+		return (false);
+	}
+	if (!only_numeric_characters(argv[i]))
+	{
+		printf("Only numeric characters are accepted\n");
+		return (false);
+	}
+	atoi_with_int_overflow_check(argv[i], &err);
+	if (err == 1)
+	{
+		printf("Error: over- or underflow in one of the input values\n");
+		return (false);
+	}
+	return (true);
+}
+
 bool	validate_input(int argc, char *argv[])
 {
 	size_t	i;
 	int		err;
-	
+
 	if (argc != 5 && argc != 6)
 	{
 		printf("You have to provide 4 or 5 arguments!\n");
@@ -40,22 +63,8 @@ bool	validate_input(int argc, char *argv[])
 	err = 0;
 	while (argv[i] != NULL)
 	{
-		if (argv[i][0] == '\0')
-		{
-			printf("No empty strings allowed\n");
+		if (check_command_line_arg(argv, i) == false)
 			return (false);
-		}
-		if (!only_numeric_characters(argv[i]))
-		{
-			printf("Only numeric characters are accepted\n");
-			return (false);
-		}
-		atoi_with_int_overflow_check(argv[i], &err);
-		if (err == 1)
-		{
-			printf("Error: over- or underflow in one of the input values\n");
-			return (false);
-		}
 		i++;
 	}
 	return (true);
@@ -70,19 +79,16 @@ bool	set_input_data(char *argv[], t_shared_data *shared_data)
 	shared_data->time_to_eat = atoi_with_int_overflow_check(argv[2], &err);
 	shared_data->time_to_sleep = atoi_with_int_overflow_check(argv[3], &err);
 	if (argv[4])
-		shared_data->number_of_times_to_eat = atoi_with_int_overflow_check(argv[4], &err);
+		shared_data->number_of_times_to_eat = atoi_with_int_overflow_check(
+				argv[4], &err);
 	else
 		shared_data->number_of_times_to_eat = -1;
 	shared_data->is_dead = false;
 	shared_data->forks = create_mutexes(shared_data->number_of_philo);
 	if (shared_data->forks == NULL)
 		return (false);
-	if (pthread_mutex_init(&shared_data->mutex_is_dead, NULL))
-	{
-		printf("Error with pthread_mutex_init");
-		return (false);
-	}
-	if (pthread_mutex_init(&shared_data->mutex_print, NULL))
+	if (pthread_mutex_init(&shared_data->mutex_is_dead, NULL) && \
+		pthread_mutex_init(&shared_data->mutex_print, NULL))
 	{
 		printf("Error with pthread_mutex_init");
 		return (false);
@@ -90,7 +96,8 @@ bool	set_input_data(char *argv[], t_shared_data *shared_data)
 	return (true);
 }
 
-bool	validate_and_set_input_data(int argc, char *argv[], t_shared_data *shared_data)
+bool	validate_and_set_input_data(int argc, char *argv[],
+			t_shared_data *shared_data)
 {
 	if (!validate_input(argc, argv + 1))
 		return (false);

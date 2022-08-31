@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/07 17:00:42 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 12:52:46 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 13:39:04 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define RESET "\033[0m"
 
 /* User defined types */
-typedef unsigned long t_milliseconds;
+typedef unsigned long	t_milliseconds;
 
 typedef struct s_shared_data
 {
@@ -41,7 +41,6 @@ typedef struct s_shared_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	mutex_is_dead;
 	pthread_mutex_t	mutex_print;
-
 
 }	t_shared_data;
 

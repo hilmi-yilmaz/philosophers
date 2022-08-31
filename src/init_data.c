@@ -6,7 +6,7 @@
 /*   By: hyilmaz <hyilmaz@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 10:54:51 by hyilmaz       #+#    #+#                 */
-/*   Updated: 2022/08/25 12:54:36 by hyilmaz       ########   odam.nl         */
+/*   Updated: 2022/08/31 13:43:14 by hyilmaz       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static t_philo	*init_philo(size_t i)
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (philo == NULL)
 		return (NULL);
-
 	philo->id = i + 1;
 	philo->done_eating = false;
 	if (pthread_mutex_init(&philo->mutex_done_eating, NULL))

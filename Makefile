@@ -6,7 +6,7 @@
 #    By: hyilmaz <hyilmaz@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/04/07 13:15:46 by hyilmaz       #+#    #+#                  #
-#    Updated: 2022/08/25 16:57:19 by hyilmaz       ########   odam.nl          #
+#    Updated: 2022/08/31 14:05:57 by hyilmaz       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC_FILES = src/main.c \
 			src/timing.c \
 			src/threads.c \
 			src/philo.c \
+			src/philo_actions.c \
 			src/monitor.c \
 			src/free_data.c \
 			src/utils/ft_isdigit.c \
