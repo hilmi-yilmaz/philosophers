@@ -11,16 +11,16 @@
 # **************************************************************************** #
 
 # Compilation configuration parameters
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 
 # Codam
-CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
+# CRITERION_INCLUDE_PATH = /Users/hyilmaz/.brew/include
 
 # OWN LAPTOP
-# CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
-# CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
+CRITERION_INCLUDE_PATH = /opt/homebrew/Cellar/criterion/2.4.1/include
+CRITERION_LIB_PATH= /opt/homebrew/Cellar/criterion/2.4.1/lib
 
 
 # Header files
@@ -115,7 +115,7 @@ $(TEST_OBJ_DIR):
 # OWN LAPTOP: $(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 # CODAM: $(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
 $(TEST_NAME): $(TEST_OBJ_FILES)
-	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -lcriterion $^ -o $@
+	$(CC) $(CFLAGS_TEST) -I$(CRITERION_INCLUDE_PATH) -L$(CRITERION_LIB_PATH) -lcriterion $^ -o $@
 
 $(TEST_OBJ_FILES): $(TEST_OBJ_DIR)/%.o: %.c $(HEADER_FILES)
 	mkdir -p $(@D)

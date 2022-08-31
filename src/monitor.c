@@ -14,6 +14,7 @@
 
 static void	set_dead(t_data *data)
 {
+	// printf("mutex_is_dead = %p\n", &data->shared_data->mutex_is_dead);
 	pthread_mutex_lock(&data->shared_data->mutex_is_dead);
 	data->shared_data->is_dead = true;
 	pthread_mutex_unlock(&data->shared_data->mutex_is_dead);

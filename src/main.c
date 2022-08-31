@@ -69,8 +69,25 @@ int	main(int argc, char *argv[])
 	monitor_thread = start_monitoring_thread(data);
 	if (monitor_thread == NULL)
 		return (-1);
-	if (!join_threads(shared_data, philo_threads, monitor_thread))
-		return (-1);
+
+	// size_t	i = 0;
+	// while (i < shared_data.number_of_philo)
+	// {
+	// 	if (pthread_join(philo_threads[i], NULL) != 0)
+	// 	{
+	// 		printf("Error with pthread_join\n");
+	// 		return (-1);
+	// 	}
+	// 	i++;
+	// }
+	// if (pthread_join(*monitor_thread, NULL) != 0)
+	// {
+	// 	printf("Error with pthread_join\n");
+	// 	return (-1);
+	// }
+	join_threads(&shared_data, philo_threads, monitor_thread);
+	// if (!join_threads(shared_data, philo_threads, monitor_thread))
+	// 	return (-1);
 	free_data(data, philo_threads, monitor_thread);
 	return (0);
 }

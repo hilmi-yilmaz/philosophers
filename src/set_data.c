@@ -29,7 +29,6 @@ static bool	only_numeric_characters(char *str_number)
 bool	validate_input(int argc, char *argv[])
 {
 	size_t	i;
-	int		converted_input;
 	int		err;
 	
 	if (argc != 5 && argc != 6)
@@ -51,7 +50,7 @@ bool	validate_input(int argc, char *argv[])
 			printf("Only numeric characters are accepted\n");
 			return (false);
 		}
-		converted_input = atoi_with_int_overflow_check(argv[i], &err);
+		atoi_with_int_overflow_check(argv[i], &err);
 		if (err == 1)
 		{
 			printf("Error: over- or underflow in one of the input values\n");

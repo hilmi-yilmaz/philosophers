@@ -86,7 +86,10 @@ bool	only_one_philo(t_data *data)
 {
 	if (data->shared_data->number_of_philo == 1)
 	{
+		pthread_mutex_lock(&data->shared_data->mutex_print);
 		printf("%s%-6d %lu %s%s\n", BLUE, 0, data->philo->id, "has taken a fork", RESET);
+		pthread_mutex_unlock(&data->shared_data->mutex_print);
+
 		return (true);
 	}
 	return (false);

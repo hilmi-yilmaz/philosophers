@@ -49,13 +49,13 @@ pthread_t	*start_monitoring_thread(t_data *data)
 	return (thread);
 }
 
-bool	join_threads(t_shared_data shared_data, pthread_t *philo_threads,
+bool	join_threads(t_shared_data *shared_data, pthread_t *philo_threads,
 					pthread_t *monitor_thread)
 {
 	size_t i;
 
 	i = 0;
-	while (i < shared_data.number_of_philo)
+	while (i < shared_data->number_of_philo)
 	{
 		if (pthread_join(philo_threads[i], NULL) != 0)
 		{
@@ -71,3 +71,18 @@ bool	join_threads(t_shared_data shared_data, pthread_t *philo_threads,
 	}
 	return (true);
 }
+
+// bool	join_threads(t_shared_data shared_data, pthread_t *philo_threads,
+// 					pthread_t *monitor_thread)
+// {
+// 	size_t i;
+
+// 	i = 0;
+// 	while (i < shared_data.number_of_philo)
+// 	{
+// 		pthread_join(philo_threads[i], NULL);
+// 		i++;
+// 	}
+// 	pthread_join(*monitor_thread, NULL);
+// 	return (true);
+// }
