@@ -52,7 +52,6 @@ static bool	check_command_line_arg(char **argv, size_t i)
 bool	validate_input(int argc, char *argv[])
 {
 	size_t	i;
-	int		err;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -60,7 +59,6 @@ bool	validate_input(int argc, char *argv[])
 		return (false);
 	}
 	i = 0;
-	err = 0;
 	while (argv[i] != NULL)
 	{
 		if (check_command_line_arg(argv, i) == false)

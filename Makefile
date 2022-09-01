@@ -12,7 +12,7 @@
 
 # Compilation configuration parameters
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 CFLAGS_TEST = -Wall -Wextra -Werror -pthread -g
 
 # Codam
